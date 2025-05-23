@@ -28,32 +28,30 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-            .csrf(csrf -> csrf
-                // Only ignore CSRF for stateless API endpoints if needed
-                .ignoringRequestMatchers(
-                    "/api/**"
+                .csrf(csrf -> csrf
+                        // Only ignore CSRF for stateless API endpoints if needed
+                        .ignoringRequestMatchers(
+                                "/api/**"))
+                .headers(headers -> headers
+                        .frameOptions(frameOptions -> frameOptions.disable()) // <- This disables the blocking header
                 )
-            )
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers(
-                    "/login",
-                    "/signup",
-                    "/css/**",
-                    "/js/**",
-                    "/images/**",
-                    "/search-live"
-                ).permitAll()
-                .anyRequest().authenticated()
-            )
-            .formLogin(form -> form
-                .loginPage("/login")
-                .defaultSuccessUrl("/index", true)
-                .permitAll()
-            )
-            .logout(logout -> logout
-                .logoutSuccessUrl("/login?logout")
-                .permitAll()
-            )
-            .build();
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/login",
+                                "/signup",
+                                "/css/**",
+                                "/js/**",
+                                "/images/**",
+                                "/search-live")
+                        .permitAll()
+                        .anyRequest().authenticated())
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/index", true)
+                        .permitAll())
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/login?logout")
+                        .permitAll())
+                .build();
     }
 }
