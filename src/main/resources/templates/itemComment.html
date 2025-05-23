@@ -12,28 +12,28 @@
     <script src="/js/passIdToComment.js" defer></script>
     <script defer>
       document.addEventListener('DOMContentLoaded', function () {
-          console.log('Page loaded. Checking for hash...');
-          if (window.location.hash) {
-              const hash = window.location.hash.substring(1); // Remove the '#' symbol
-              console.log('Hash detected:', hash);
+        console.log('Page loaded. Checking for hash...');
+        if (window.location.hash) {
+          const hash = window.location.hash.substring(1); // Remove the '#' symbol
+          console.log('Hash detected:', hash);
 
-              const targetElement = document.getElementById(hash);
-              console.log('Target element:', targetElement);
+          const targetElement = document.getElementById(hash);
+          console.log('Target element:', targetElement);
 
-              if (targetElement) {
-                  targetElement.scrollIntoView({ behavior: 'smooth' });
-                  targetElement.classList.add('highlight');
-              } else {
-                  console.warn('No element found for hash:', hash);
-              }
+          if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+            targetElement.classList.add('highlight');
+          } else {
+            console.warn('No element found for hash:', hash);
           }
+        }
       });
     </script>
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const highlightElements = document.querySelectorAll('.highlight');
 
-        highlightElements.forEach(element => {
+        highlightElements.forEach((element) => {
           element.addEventListener('transitionend', () => {
             element.classList.add('transition-end');
           });
@@ -52,52 +52,48 @@
             </a>
           </li>
           <li>
-          <div th:if="${isOwner != null && isOwner}">
-            <a
-              class="bg-blue-500 hover:bg-blue-700 text-white text-xs px-1 py-0.5 rounded"
-              id="redirectUpdateItemDetails"
-              th:href="@{/update-item/{itemId}(itemId=${item?.id})}"
-            >
-              <span class="text-lg">&#9776;</span>
-            </a>
-          </div>
+            <div th:if="${isOwner != null && isOwner}">
+              <a
+                class="bg-blue-500 hover:bg-blue-700 text-white text-xs px-1 py-0.5 rounded"
+                id="redirectUpdateItemDetails"
+                th:href="@{/update-item/{itemId}(itemId=${item?.id})}"
+              >
+                <span class="text-lg">&#9776;</span>
+              </a>
+            </div>
           </li>
         </ul>
       </nav>
     </header>
 
     <main th:id="'item-' + ${item.id}">
-
-      
       <!-- ERROR AND SUCCESS HANDLING -->
       <div class="errorSuccessHandlingBox hidden">
         <div
           id="successMessageDiv"
           class="success"
           th:if="${message}"
-          th:text="${message}">
-        </div>
+          th:text="${message}"
+        ></div>
         <div
           id="errorMessageDiv"
           class="failure"
           th:if="${error}"
-          th:text="${error}">
-        </div>
+          th:text="${error}"
+        ></div>
       </div>
 
-
       <!-- ITEM NAV -->
-      <div class="collection">
-        <div class="box">
+      <div class="container flex flex-col h-full">
+        <div class="box flex flex-col">
           <nav>
-          <div class="flex justify-between items-center w-full pr-2">
             <ul>
               <li class="pr-2">
                 <a
                   th:href="@{/collection/{collectionId}(collectionId=${collection?.id})}"
                 >
                   <img
-                    class="h-7 w-7 rounded-full bg-white"
+                    class="round-image"
                     th:src="${collection?.imageUrl ?: '/item_image.png'}"
                     alt="Profile Picture"
                   />
@@ -108,28 +104,22 @@
                   th:href="@{/collection/{collectionId}(collectionId=${collection?.id})}"
                 >
                   <span
-                    class="text-sm font-semibold"
+                    class="text-sm font-semibold text-black"
                     th:if="${collection?.title!= null}"
                     th:text="${collection?.title}"
                   ></span>
                 </a>
               </li>
             </ul>
-          </div>
-        </nav>
-        <!-- ITEM CONTENT -->
-        <div class="flex flex-col justify-center items-center border-size-0">
-          <div class="image-container relative bg-white">
+          </nav>
+          <div class="square-index">
             <!-- ITEM PICTURE -->
-            <a>
-              <img
-                class="square"
-                id="previewImage"
-                th:src="${item != null && item.imageUrl != null ? item.imageUrl : '/images/item_image.png'}"
-                alt="Item Image"
-              />
-            </a>
-
+            <img
+              class="square"
+              id="previewImage"
+              th:src="${item != null && item.imageUrl != null ? item.imageUrl : '/images/item_image.png'}"
+              alt="Item Image"
+            />
             <!-- Overlay -->
             <div
               id="itemOverlay"
@@ -158,7 +148,6 @@
                 </button>
               </div>
             </div>
-
             <!-- Toggle Button -->
             <button
               id="toggleButtonShowInfo"
@@ -173,51 +162,65 @@
               Hide Info
             </button>
           </div>
-
           <div class="caption-container">
             <div class="like-comment-container">
               <ul>
                 <li>
                   <div class="element">
-                    <form th:if="${item?.id != null}" th:action="@{/items/{id}/like(id=${item?.id})}" method="post">
-                      <input type="hidden" name="itemId" th:value="${item.id}" />
-                      <input type="hidden" name="userId" th:value="${user.id}" />
-                      <input type="hidden" name="liked" th:value="${item.isLiked}" />
-                      <button type="submit" class="likeButton" th:if="${item.userId != user.id}">
-                        <span class="pr-2 font-medium" th:if="${item.isLiked}">&#9829;</span>
-                        <span class="pr-2 font-medium" th:if="${!item.isLiked}">&#9825;</span>
+                    <form
+                      th:if="${item?.id != null}"
+                      th:action="@{/items/{id}/like(id=${item?.id})}"
+                      method="post"
+                    >
+                      <input
+                        type="hidden"
+                        name="itemId"
+                        th:value="${item.id}"
+                      />
+                      <input
+                        type="hidden"
+                        name="userId"
+                        th:value="${user.id}"
+                      />
+                      <input
+                        type="hidden"
+                        name="liked"
+                        th:value="${item.isLiked}"
+                      />
+                      <button
+                        type="submit"
+                        class="likeButton"
+                        th:if="${item.userId != user.id}"
+                      >
+                        <span class="pr-2 font-medium" th:if="${item.isLiked}">
+                          &#9829;
+                        </span>
+                        <span class="pr-2 font-medium" th:if="${!item.isLiked}">
+                          &#9825;
+                        </span>
                       </button>
-                      <button type="button" class="likeButton" th:if="${item.userId == user.id}" disabled>
+                      <button
+                        type="button"
+                        class="likeButton"
+                        th:if="${item.userId == user.id}"
+                        disabled
+                      >
                         <span class="pr-2 font-medium">&#9829;</span>
                       </button>
                     </form>
                   </div>
-
-                  <div class="flex justify-start items-center">
+                  <div class="element">
                     <p class="font-thin" th:text="${item.likeCount}"></p>
                   </div>
                 </li>
-
-                <li class="flex flex-row justify-start items-center pr-2">
-                  <a th:href="@{/item/{id}(id=${item.id})}" th:class="${'commentToggle' + item.id}">
+                <li>
+                  <a th:href="@{/item/{id}/comments(id=${item?.id})}">
                     <span class="pr-2 font-medium">comment</span>
                   </a>
                   <span class="font-thin" th:text="${item.commentCount}"></span>
                 </li>
               </ul>
-
-
-              <!-- COMMENT BOX EXIT -->
-              <div>
-                <a
-                  th:href="@{/item/{itemId}(itemId=${item.id})}"
-                  id="commentBoxExit"
-                  class="collectionCommentBoxExit flex-row justify-end items-center pr-2">
-                  <span class="font-semibold">X</span>
-                </a>
-              </div>
             </div>
-
             <div class="caption">
               <!-- CAPTION -->
               <p
@@ -225,8 +228,7 @@
                 class="truncate-multiline leading-[1rem]"
                 onclick="toggleTruncate(this)"
               >
-
-
+                <a th:href="@{/profile/{id}(id=${userProfile?.id})}">
                   <span
                     class="font-semibold"
                     th:if="${userProfile?.username != null}"
@@ -240,7 +242,7 @@
               </p>
             </div>
             <div class="small-date">
-            <!-- MONTH YEAR -->
+              <!-- MONTH YEAR -->
               <span
                 style="font-size: 9px"
                 class="font-extralight"
@@ -250,12 +252,11 @@
             </div>
           </div>
         </div>
-      </div>
-      
+
         <!-- COMMENT BOX -->
         <div
           id="commentBox"
-          class="flex-grow pb-6 h-60 w-full bg-slate-100 overflow-y-auto"
+          class="flex-1 pb-6 w-full overflow-y-auto"
           th:value="${item.id}"
         >
           <!-- Comment Template -->
@@ -318,7 +319,6 @@
                   style="font-size: 8px; line-height: 1"
                   class="commentReplyBox w-full flex flex-col justify-center items-start pt-1 pr-2 text-slate-500 font-semibold"
                 >
-                  
                   <button
                     class="commentReplyButton"
                     th:data-comment-id="${comment.id}"
@@ -327,8 +327,6 @@
                   >
                     <span class="leading-[1.2]">Reply</span>
                   </button>
-
-                
                 </div>
 
                 <!-- REPLY BOX -->
@@ -401,15 +399,14 @@
                           class="replyReplyBox w-full flex flex-col justify-center items-start pt-1 pr-2 text-slate-500 font-semibold"
                         >
                           <button
-                          class="commentReplyReplyButton"
-                          th:data-comment-id="${comment.id}"
-                          th:data-reply-username="${reply.user.username}"
-                          onclick="triggerReplyId(this)"
-                          type="button"
+                            class="commentReplyReplyButton"
+                            th:data-comment-id="${comment.id}"
+                            th:data-reply-username="${reply.user.username}"
+                            onclick="triggerReplyId(this)"
+                            type="button"
                           >
                             <span class="leading-[1.2]">Reply</span>
                           </button>
-
                         </div>
                       </div>
                       <!-- Like Box -->
@@ -489,7 +486,6 @@
                     </div>
                   </div>
                 </div>
-
               </div>
               <!-- COMMENT LIKE BOX -->
               <div
@@ -581,11 +577,7 @@
                 alt="Profile Picture"
               />
             </a>
-            <input
-              type="hidden"
-              name="itemId"
-              th:value="${item.id}"
-            />
+            <input type="hidden" name="itemId" th:value="${item.id}" />
             <input
               id="commentContentInput"
               type="text"
@@ -628,7 +620,12 @@
               class="h-8 mx-2 px-2"
             />
 
-            <input type="hidden" name="commentId" id="replyCommentIdInput" value="" />
+            <input
+              type="hidden"
+              name="commentId"
+              id="replyCommentIdInput"
+              value=""
+            />
 
             <input type="hidden" name="currentUser" th:value="${user.id}" />
 

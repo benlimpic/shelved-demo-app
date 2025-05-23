@@ -753,8 +753,8 @@ body {
   position: fixed;
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  width: 100vw;
+  min-height: 100vh;
+  min-width: 100vw;
   align-items: center;
   justify-content: center;
   background-color: #e6e7e9;
@@ -1289,10 +1289,6 @@ label {
   height: 1.25rem;
 }
 
-.h-60 {
-  height: 15rem;
-}
-
 .h-7 {
   height: 1.75rem;
 }
@@ -1344,6 +1340,10 @@ label {
 
 .w-full {
   width: 100%;
+}
+
+.flex-1 {
+  flex: 1 1 0%;
 }
 
 .flex-shrink {

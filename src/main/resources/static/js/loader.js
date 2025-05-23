@@ -23,7 +23,7 @@ class ShelvedLoader {
     if (document.getElementById('logoWrapper')) return; // Prevent duplicates
     const loaderHTML = `
       <div class="logo-wrapper" id="logoWrapper" style="display:none;">
-        <img id="logo" src="http://localhost:9090/images/Shelved_Logo_White.png" alt="Logo">
+        <img id="logo" src="/images/Shelved_Logo_White.png" alt="Logo">
       </div>
       <div id="overlay"></div>
     `;
