@@ -18,7 +18,7 @@
   <body class="bg-blue-700">
     <main class="top-0 bottom-0 bg-blue-500">
       <!-- ERROR AND SUCCESS HANDLING -->
-      <div class="errorSuccessHandlingBox hidden">
+      <div class="hidden errorSuccessHandlingBox">
         <div
           id="successMessageDiv"
           class="success"
@@ -37,7 +37,7 @@
         <div
           class="flex flex-col items-center justify-center px-6 py-4 rounded-lg"
         >
-          <div class="mb-4 mt-2">
+          <div class="mt-2 mb-4">
             <img
               class="h-8"
               src="/images/Shelved_Logo_White.png"
@@ -47,7 +47,9 @@
 
           <form th:action="@{/login}" method="post">
             <div class="mt-2 mb-2">
-              <label class="label text-blue-300" for="Username">
+              <input type="hidden" name="_csrf" value="${_csrf.token}" />
+
+              <label class="text-blue-300 label" for="Username">
                 Username:
               </label>
               <input
@@ -61,7 +63,7 @@
             </div>
 
             <div class="mb-2">
-              <label class="label text-blue-300" for="password">
+              <label class="text-blue-300 label" for="password">
                 Password:
               </label>
               <input
@@ -74,7 +76,7 @@
             </div>
 
             <!-- Submit Button -->
-            <div class="flex justify-center items-center w-full p-1 mt-4">
+            <div class="flex items-center justify-center w-full p-1 mt-4">
               <button
                 class="button bg-slate-800 hover:bg-slate-950"
                 type="submit"
@@ -85,7 +87,7 @@
           </form>
           <div class="p-1">
             <a
-              class="small-button bg-blue-800 hover:bg-blue-950"
+              class="bg-blue-800 small-button hover:bg-blue-950"
               href="/signup"
             >
               Sign Up
