@@ -41,9 +41,8 @@ public class SecurityConfig {
                         // Only ignore CSRF for stateless API endpoints if needed
                         .ignoringRequestMatchers(
                                 "/api/**"))
-                .headers(headers -> headers
-                        .frameOptions(frameOptions -> frameOptions.disable()) // <- This disables the blocking header
-                )
+                .headers(headers -> headers.frameOptions(frame -> frame.disable()))
+                
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/login",
