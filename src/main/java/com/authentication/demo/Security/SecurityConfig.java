@@ -1,5 +1,8 @@
 package com.authentication.demo.Security;
 
+import org.apache.tomcat.util.http.Rfc6265CookieProcessor;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +27,12 @@ public class SecurityConfig {
             throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
+
+    @Bean
+        public WebServerFactoryCustomizer<TomcatServletWebServerFactory> cookieCustomizer() {
+        return factory -> factory.addContextCustomizers(context ->
+               context.setCookieProcessor(new Rfc6265CookieProcessor()));
+        }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
