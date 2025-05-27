@@ -2,7 +2,6 @@ package com.authentication.demo.Security;
 
 import java.util.Arrays;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -28,8 +27,11 @@ import jakarta.servlet.http.HttpServletResponse;
 @Profile("demo")
 public class DemoSecurityConfig {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public DemoSecurityConfig(UserRepository userRepository) {
+    this.userRepository = userRepository;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
