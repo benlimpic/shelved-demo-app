@@ -1,0 +1,1 @@
+web: java -Dspring.profiles.active=$SPRING_PROFILES_ACTIVE -jar target/demo-0.0.1-SNAPSHOT.jar
