@@ -7,9 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.authentication.demo.Repository.CollectionRepository;
 import com.authentication.demo.Service.CommentService;
-import com.authentication.demo.Service.UserService;
 
 @Controller
 public class CommentController {
@@ -17,8 +15,7 @@ public class CommentController {
   private final CommentService commentService;
 
 
-  public CommentController(UserService userService, CollectionRepository collectionRepository,
-      CommentService commentService) {
+  public CommentController(CommentService commentService) {
     this.commentService = commentService;
   }
 
