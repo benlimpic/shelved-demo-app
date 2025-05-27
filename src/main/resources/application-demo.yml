@@ -1,26 +1,29 @@
 spring:
   datasource:
-    url: ${JDBC_DATABASE_URL}
-    username: ${JDBC_DATABASE_USERNAME}
-    password: ${JDBC_DATABASE_PASSWORD}
+    url: jdbc:postgresql://localhost:5432/dev_shelved
+    username: shelved_user
+    password: shelved_pass
   main:
     allow-circular-references: true
-
   jpa:
+    hibernate:
+      ddl-auto: update
+    # Optional: enable SQL logging for dev
+    show-sql: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        ddl-auto: update
+        format_sql: true
 
-cloud:
-  aws:
-    s3:
-      region:
-        static: us-west-1
-    buckets:
-      AWS_S3_BUCKET_PROFILE_IMAGES: ${aws.s3.AWS_S3_BUCKET_PROFILE_IMAGES}
-      AWS_S3_BUCKET_COLLECTION_IMAGES: ${aws.s3.AWS_S3_BUCKET_COLLECTION_IMAGES}
-      AWS_S3_BUCKET_ITEM_IMAGES: ${aws.s3.AWS_S3_BUCKET_ITEM_IMAGES}
+aws:
+  s3:
+    credentials:
+      access-key: ${AWS_ACCESS_KEY_ID}
+      secret-key: ${AWS_SECRET_ACCESS_KEY}
+    region:
+      static: ${AWS_REGION}
+    AWS_S3_BUCKET_PROFILE_IMAGES: ${AWS_S3_BUCKET_PROFILE_IMAGES}
+    AWS_S3_BUCKET_COLLECTION_IMAGES: ${AWS_S3_BUCKET_COLLECTION_IMAGES}
+    AWS_S3_BUCKET_ITEM_IMAGES: ${AWS_S3_BUCKET_ITEM_IMAGES}
 
 server:
   port: 8080
@@ -30,6 +33,6 @@ server:
         same-site: none
         secure: true
 
-logging:
-  level:
-    root: INFO
+    # url: ${JDBC_DATABASE_URL}
+    # username: ${JDBC_DATABASE_USERNAME}
+    # password: ${JDBC_DATABASE_PASSWORD}

@@ -8,6 +8,7 @@ import com.authentication.demo.Model.CommentModel;
 import com.authentication.demo.Repository.CommentRepository;
 
 @Service
+
 public class CommentQueryService {
 
   private final CommentRepository commentRepository;

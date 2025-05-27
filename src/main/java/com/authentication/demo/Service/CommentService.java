@@ -14,6 +14,7 @@ import com.authentication.demo.Model.UserModel;
 import com.authentication.demo.Repository.CommentRepository;
 
 @Service
+
 public class CommentService {
 
   private final CommentRepository commentRepository;

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
+
 public class ImageService {
 
   int MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5 MB

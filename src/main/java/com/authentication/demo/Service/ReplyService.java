@@ -11,6 +11,7 @@ import com.authentication.demo.Repository.ReplyRepository;
 
 
 @Service
+
 public class ReplyService {
   private final ReplyRepository replyRepository;
   private final CommentService commentService;

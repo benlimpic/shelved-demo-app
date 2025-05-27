@@ -346,54 +346,54 @@
     word-wrap: break-word;
   }
 
-.errorSuccessHandlingBox {
-  position: fixed;    /* Use fixed so it stays at the top of the viewport */
-  z-index: 9999;        /* Higher than header/footer */
-  top: 0;
-  left: 0;
-  width: 100%;
-  min-height: 3rem;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 1.1rem;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.08);
-  display: flex;
-}
-
-.slide-in {
-  animation: slide-in 0.7s ease-out forwards;
-}
-
-@keyframes slide-in {
-  from {
-    opacity: 0;
-    transform: translateY(-100%);
+  .errorSuccessHandlingBox {
+    position: fixed; /* Use fixed so it stays at the top of the viewport */
+    z-index: 9999; /* Higher than header/footer */
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 3rem;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+    display: flex;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
-.slide-out {
-  animation: slide-out 0.7s ease-in forwards;
-}
-
-@keyframes slide-out {
-  from {
-    opacity: 1;
-    transform: translateY(0);
+  .slide-in {
+    animation: slide-in 0.7s ease-out forwards;
   }
-  to {
-    opacity: 0;
-    transform: translateY(-100%);
-  }
-}
 
-.hidden {
-  display: none !important;
-}
+  @keyframes slide-in {
+    from {
+      opacity: 0;
+      transform: translateY(-100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .slide-out {
+    animation: slide-out 0.7s ease-in forwards;
+  }
+
+  @keyframes slide-out {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-100%);
+    }
+  }
+
+  .hidden {
+    display: none !important;
+  }
 
   .truncate {
     white-space: nowrap;
@@ -423,6 +423,21 @@
     display: none; /* Chrome, Safari, and Edge */
   }
 
+  @keyframes sway {
+    0% {
+      transform: translateX(-6px) rotate(-3deg);
+    }
+    50% {
+      transform: translateX(6px) rotate(3deg);
+    }
+    100% {
+      transform: translateX(-6px) rotate(-3deg);
+    }
+  }
 
-
+  .sway {
+    animation: sway 2s ease-in-out infinite;
+    display: inline-block;
+    filter: blur(0.5px) drop-shadow(0 0 6px #fff) brightness(1.1);
+  }
 }

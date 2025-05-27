@@ -17,7 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
-@Profile("!demo")
+@Profile("demo")
 public class SecurityConfig {
 
     @Bean

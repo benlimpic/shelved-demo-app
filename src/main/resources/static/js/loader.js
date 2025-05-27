@@ -221,8 +221,6 @@ class ShelvedLoader {
   stop() {
     this.running = false;
     this.wrapper.style.display = 'none';
-    // Fade out blue background
-    this.overlay.style.opacity = 0;
     if (this.animationFrame) cancelAnimationFrame(this.animationFrame);
     // Remove all blobs and particles
     document

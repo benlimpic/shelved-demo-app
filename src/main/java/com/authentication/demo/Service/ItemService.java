@@ -21,6 +21,7 @@ import com.authentication.demo.Repository.CollectionRepository;
 import com.authentication.demo.Repository.ItemRepository;
 
 @Service
+
 public class ItemService {
   private final ItemRepository itemRepository;
   private final UserService userService;

@@ -15,6 +15,7 @@ import com.authentication.demo.Repository.ReplyRepository;
 import com.authentication.demo.Repository.UserRepository;
 
 @Service
+
 public class LikeService {
 
   private final LikeRepository likeRepository;

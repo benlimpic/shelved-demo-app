@@ -20,6 +20,7 @@ import com.authentication.demo.Model.ItemModel;
 import com.authentication.demo.Repository.CollectionRepository;
 
 @Service
+
 public class CollectionService {
   private final CollectionRepository repository;
   private final ItemService itemService;

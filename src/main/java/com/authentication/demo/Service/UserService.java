@@ -34,6 +34,7 @@ import com.authentication.demo.Model.UserModel;
 import com.authentication.demo.Repository.UserRepository;
 
 @Service
+
 public class UserService implements UserDetailsService {
   private final UserRepository repository;
   private final PasswordEncoder passwordEncoder;

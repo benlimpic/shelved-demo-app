@@ -17,7 +17,6 @@ import com.authentication.demo.Service.CollectionService;
 import com.authentication.demo.Service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class UserController {
@@ -138,12 +137,12 @@ public String login(@RequestParam String username, @RequestParam String password
 }
 
   // LOGOUT USER
-  @PostMapping("/logout")
-  public String logout(HttpServletRequest request, HttpServletResponse response,
-      RedirectAttributes redirectAttributes) {
-    // Invalidate the session and clear authentication
-    request.getSession().invalidate();
+@PostMapping("/logout")
+public String logout(HttpServletRequest request) {
+    request.getSession().setAttribute("demo_logged_out", true);
     SecurityContextHolder.clearContext();
+    // Invalidate the session
+    request.getSession().invalidate();
 
     // Redirect to login with the `logout` parameter
     return "redirect:/login?logout";

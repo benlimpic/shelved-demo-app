@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import com.authentication.demo.Model.FollowModel;
 import com.authentication.demo.Model.UserModel;
 import com.authentication.demo.Repository.FollowRepository;
+
 @Service
+
 public class FollowService {
 
     private final FollowRepository followRepository;

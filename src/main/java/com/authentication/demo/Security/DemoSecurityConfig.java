@@ -24,7 +24,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
-@Profile("demo")
+@Profile("!demo")
 public class DemoSecurityConfig {
 
     private final UserRepository userRepository;
