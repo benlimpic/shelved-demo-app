@@ -1,6 +1,28 @@
+cloud:
+  aws:
+    s3:
+      credentials:
+        access-key: ${AWS_ACCESS_KEY_ID}
+        secret-key: ${AWS_SECRET_ACCESS_KEY}
+      region:
+        static: ${AWS_REGION}
+    buckets:
+      AWS_S3_BUCKET_PROFILE_IMAGES: shelved-profile-pictures-benlimpic
+      AWS_S3_BUCKET_COLLECTION_IMAGES: shelved-collection-images-benlimpic
+      AWS_S3_BUCKET_ITEM_IMAGES: shelved-item-images-benlimpic
+
 spring:
   datasource:
+    name: shelved-app
     url: jdbc:postgresql://${PROD_DB_HOST}:${PROD_DB_PORT}/${PROD_DB_NAME}
     username: ${PROD_DB_USERNAME}
     password: ${PROD_DB_PASSWORD}
-    name: shelved-app
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        ddl-auto: update
+
+server:
+  port: 7070

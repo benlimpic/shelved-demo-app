@@ -1,0 +1,36 @@
+cloud:
+  aws:
+    s3:
+      credentials:
+        profile-name: ben
+      region:
+        static: us-west-1
+    buckets:
+      AWS_S3_BUCKET_PROFILE_IMAGES: shelved-demo-bucket
+      AWS_S3_BUCKET_COLLECTION_IMAGES: shelved-demo-bucket
+      AWS_S3_BUCKET_ITEM_IMAGES: shelved-demo-bucket
+
+spring:
+  datasource:
+    name: shelved-demo-app
+    url: jdbc:postgresql://${DEMO_DB_HOST:localhost}:${DEMO_DB_PORT:5432}/${DEMO_DB_NAME:shelved}
+    username: ${DEMO_DATABASE_USERNAME}
+    password: ${DEMO_DATABASE_PASSWORD}
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        ddl-auto: update
+
+server:
+  port: 8080
+  servlet:
+    session:
+      cookie:
+        same-site: none
+        secure: true
+
+logging:
+  level:
+    root: INFO

@@ -6,10 +6,10 @@ import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactor
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -17,7 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
-@EnableWebSecurity
+@Profile("!demo")
 public class SecurityConfig {
 
     @Bean
@@ -40,39 +40,44 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-            .headers(headers -> headers
-                .frameOptions(frame -> frame.sameOrigin())
-                .contentSecurityPolicy(csp -> csp.policyDirectives("frame-ancestors 'self' https://benlimpic.github.io/"))
-            )
-            .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/api/**")
-            )
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login", "/signup", "/css/**", "/js/**", "/images/**", "/search-live").permitAll()
-                .anyRequest().authenticated()
-            )
-            .formLogin(form -> form
-                .loginPage("/login")
-                .failureUrl("/login?error=true")
-                .defaultSuccessUrl("/index", true)
-                .permitAll()
-            )
-            .logout(logout -> logout
-                .logoutSuccessUrl("/login?logout=true")
-                .permitAll()
-            )
-            .exceptionHandling(e -> e
-                .authenticationEntryPoint((request, response, authException) -> {
-                    String accept = request.getHeader("Accept");
-                    if (accept != null && accept.contains("application/json")) {
-                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-                    } else {
-                        response.sendRedirect("/login?iframe=true");
-                    }
-                })
-            )
-            .build();
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    System.out.println("❌ SecurityConfig is ACTIVE");
+
+    return http
+        .headers(headers -> headers
+            .frameOptions(frame -> frame.sameOrigin()) // Only allow embedding from same domain
+            .contentSecurityPolicy(csp -> csp.policyDirectives(
+                "default-src 'self'; " +
+                "script-src 'self' 'unsafe-inline'; " +
+                "frame-ancestors 'self' https://benlimpic.github.io/")) // Trusted iframe parent
+        )
+        .csrf(csrf -> csrf
+            .ignoringRequestMatchers("/api/**")
+        )
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers("/login", "/signup", "/css/**", "/js/**", "/images/**", "/search-live").permitAll()
+            .anyRequest().authenticated()
+        )
+        .formLogin(form -> form
+            .loginPage("/login")
+            .failureUrl("/login?error=true")
+            .defaultSuccessUrl("/index", true)
+            .permitAll()
+        )
+        .logout(logout -> logout
+            .logoutSuccessUrl("/login?logout=true")
+            .permitAll()
+        )
+        .exceptionHandling(e -> e
+            .authenticationEntryPoint((request, response, authException) -> {
+                String accept = request.getHeader("Accept");
+                if (accept != null && accept.contains("application/json")) {
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                } else {
+                    response.sendRedirect("/login?iframe=true");
+                }
+            })
+        )
+        .build();
     }
 }

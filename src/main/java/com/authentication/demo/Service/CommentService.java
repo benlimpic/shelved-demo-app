@@ -135,7 +135,7 @@ public class CommentService {
   }
 
   public List<CommentModel> getCommentsByItemId(Long itemId) {
-    return commentRepository.findByItemIdOrderByCreatedAtDesc(itemId);
+    return commentRepository.findByItemIdOrderByCreatedAtAsc(itemId);
   }
   
 

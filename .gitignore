@@ -1,37 +1,43 @@
-HELP.md
-.aws/
-.config
-.credentials
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-/node_modules
+# Environment files
+.env*
+!/.env.example
 
-### STS ###
+# AWS credentials and config
+.aws/
+.credentials/
+
+# Maven & build artifacts
+target/
+*.log
+!.mvn/wrapper/maven-wrapper.jar
+
+# Node modules (if frontend included)
+node_modules/
+
+# IDE specific
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# Spring Tools Suite
 .apt_generated
 .classpath
 .factorypath
 .project
-.settings
+.settings/
 .springBeans
 .sts4-cache
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-
-### NetBeans ###
+# NetBeans
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
 build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
-### VS Code ###
-.vscode/
+# OS specific
+.DS_Store
+Thumbs.db

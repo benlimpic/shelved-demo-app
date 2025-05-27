@@ -41,26 +41,23 @@
     </header>
 
     <main class="overflow-y-auto scrollbar-hidden">
-
-      
       <!-- ERROR AND SUCCESS HANDLING -->
-      <div class="errorSuccessHandlingBox hidden">
+      <div class="hidden errorSuccessHandlingBox">
         <div
           id="successMessageDiv"
           class="success"
           th:if="${message}"
-          th:text="${message}">
-        </div>
+          th:text="${message}"
+        ></div>
         <div
           id="errorMessageDiv"
           class="failure"
           th:if="${error}"
-          th:text="${error}">
-        </div>
+          th:text="${error}"
+        ></div>
       </div>
 
-
-      <div th:if="${collections.size == 0}">
+      <div th:if="${collections != null and collections.size == 0}">
         <div class="container">
           <span class="text-sm font-semibold">No collections yet</span>
         </div>
@@ -76,7 +73,7 @@
           >
             <!-- COLLECTION NAVBAR -->
             <nav>
-              <div class="flex justify-between items-center w-full pr-2">
+              <div class="flex items-center justify-between w-full pr-2">
                 <div>
                   <ul>
                     <li class="pr-2">
@@ -125,7 +122,7 @@
 
               <!-- Overlay -->
               <div
-                class="collectionOverlay overlay absolute bottom-0 left-0 w-full h-full bg-black bg-opacity-70 text-white text-sm p-2 overflow-y-scroll hidden"
+                class="absolute bottom-0 left-0 hidden w-full h-full p-2 overflow-y-scroll text-sm text-white bg-black collectionOverlay overlay bg-opacity-70"
               >
                 <div class="itemGrid">
                   <div
@@ -141,7 +138,7 @@
                         <img
                           th:src="${#strings.defaultString(item?.imageUrl, '/images/item_image.png')}"
                           alt="Item Image"
-                          class="aspect-square w-full h-auto object-cover"
+                          class="object-cover w-full h-auto aspect-square"
                         />
                       </a>
                     </div>
@@ -151,12 +148,12 @@
 
               <!-- Toggle Buttons -->
               <button
-                class="toggleButtonShowItems toggle-overlay absolute bottom-2 right-2 bg-white text-black text-xs px-2 py-1 rounded z-20"
+                class="absolute z-20 px-2 py-1 text-xs text-black bg-white rounded toggleButtonShowItems toggle-overlay bottom-2 right-2"
               >
                 Show Items
               </button>
               <button
-                class="toggleButtonHideItems toggle-overlay absolute bottom-2 right-2 bg-white text-black text-xs px-2 py-1 rounded z-20 hidden"
+                class="absolute z-20 hidden px-2 py-1 text-xs text-black bg-white rounded toggleButtonHideItems toggle-overlay bottom-2 right-2"
               >
                 Hide Items
               </button>
@@ -234,7 +231,7 @@
                     <div class="element">
                       <a
                         th:href="@{/collection/{id}/comments(id=${collection.id})}"
-                        class="collectionCommentButton pr-2 font-medium"
+                        class="pr-2 font-medium collectionCommentButton"
                       >
                         comment
                       </a>
@@ -250,9 +247,7 @@
               </div>
 
               <div>
-                <div
-                  class="caption"
-                >
+                <div class="caption">
                   <!-- CAPTION -->
                   <p
                     id="toggle_truncate"
@@ -261,7 +256,7 @@
                   >
                     <a th:href="@{/profile/{id}(id=${collection.user.id})}">
                       <span
-                        class="font-semibold pr-1"
+                        class="pr-1 font-semibold"
                         th:if="${users[collection.user.id]?.username != null}"
                         th:text="${users[collection.user.id]?.username}"
                       ></span>
@@ -293,10 +288,7 @@
       <nav>
         <ul>
           <li>
-            <div
-              id="homeButton"
-              class="icon"
-            >
+            <div id="homeButton" class="icon">
               <a class="text-2xl font-bold" href="/index">&#8962;</a>
             </div>
           </li>
