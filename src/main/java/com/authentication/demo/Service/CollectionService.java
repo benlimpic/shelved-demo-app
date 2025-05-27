@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -18,32 +17,29 @@ import com.authentication.demo.Exceptions.CollectionCreationException;
 import com.authentication.demo.Model.CollectionModel;
 import com.authentication.demo.Model.CommentModel;
 import com.authentication.demo.Model.ItemModel;
-import com.authentication.demo.Model.UserModel;
 import com.authentication.demo.Repository.CollectionRepository;
-import com.authentication.demo.Repository.CommentRepository;
 
 @Service
 public class CollectionService {
-
   private final CollectionRepository repository;
   private final ItemService itemService;
-  private final CommentRepository commentRepository;
   private final UserService userService;
   private final S3Service s3Service;
   private final ImageService imageService;
+  private final CommentQueryService commentQueryService;
 
-@Value("${aws.s3.AWS_S3_BUCKET_COLLECTION_IMAGES}")
-private String collectionImagesBucket;
+  @Value("${aws.s3.AWS_S3_BUCKET_COLLECTION_IMAGES}")
+  private String collectionImagesBucket;
 
   public CollectionService(CollectionRepository repository, ItemService itemService,
-      CommentRepository commentRepository, UserService userService,
-      S3Service s3Service, ImageService imageService) {
+      UserService userService, S3Service s3Service, ImageService imageService,
+      CommentQueryService commentQueryService) {
     this.repository = repository;
     this.itemService = itemService;
-    this.commentRepository = commentRepository;
     this.userService = userService;
     this.s3Service = s3Service;
     this.imageService = imageService;
+    this.commentQueryService = commentQueryService;
   }
 
   // GET COLLECTION BY COLLECTION ID
@@ -269,35 +265,19 @@ private String collectionImagesBucket;
   }
 
   public List<CommentModel> getCommentsByCollectionIdDesc(Long collectionId) {
-    return commentRepository.findByCollectionIdOrderByCreatedAtDesc(collectionId);
+    return commentQueryService.getCommentsByCollectionIdDesc(collectionId);
   }
 
   public List<CommentModel> getCommentsByCollectionIdAsc(Long collectionId) {
-    return commentRepository.findByCollectionIdOrderByCreatedAtAsc(collectionId);
+    return commentQueryService.getCommentsByCollectionIdAsc(collectionId);
   }
 
   public Integer countComments(Long collectionId) {
-    return commentRepository.countByCollectionId(collectionId);
+    return commentQueryService.countByCollectionId(collectionId);
   }
-
-  /**
-   * Extracts the S3 object key from a given S3 URL.
-   * Assumes the key is the part after the last '/' in the URL.
-   */
-  
 
   private String extractKeyFromUrl(String url) {
-    if (url == null || url.isEmpty()) {
-      throw new IllegalArgumentException("URL cannot be null or empty");
-    }
     int lastSlash = url.lastIndexOf('/');
-    if (lastSlash == -1 || lastSlash == url.length() - 1) {
-      throw new IllegalArgumentException("Invalid S3 URL format: " + url);
-    }
-
-    System.out.println("\u001B[32mExtracted key from URL: " + url.substring(lastSlash + 1) + "\u001B[0m");
     return url.substring(lastSlash + 1);
-
   }
-
 }

@@ -18,7 +18,6 @@ import com.authentication.demo.Model.CollectionModel;
 import com.authentication.demo.Model.CommentModel;
 import com.authentication.demo.Model.ItemModel;
 import com.authentication.demo.Repository.CollectionRepository;
-import com.authentication.demo.Repository.CommentRepository;
 import com.authentication.demo.Repository.ItemRepository;
 
 @Service
@@ -26,26 +25,22 @@ public class ItemService {
   private final ItemRepository itemRepository;
   private final UserService userService;
   private final CollectionRepository collectionRepository;
-  private final CommentRepository commentRepository;
   private final S3Service s3Service;
   private final ImageService imageService;
+  private final CommentQueryService commentQueryService;
 
   @Value("${aws.s3.AWS_S3_BUCKET_ITEM_IMAGES}")
   private String itemImagesBucket;
 
-  public ItemService(
-      ItemRepository itemRepository,
-      UserService userService,
-      CollectionRepository collectionRepository,
-      CommentRepository commentRepository,
-      S3Service s3Service,
-      ImageService imageService) {
+  public ItemService(ItemRepository itemRepository, UserService userService,
+      CollectionRepository collectionRepository, S3Service s3Service,
+      ImageService imageService, CommentQueryService commentQueryService) {
     this.itemRepository = itemRepository;
     this.userService = userService;
     this.collectionRepository = collectionRepository;
-    this.commentRepository = commentRepository;
     this.s3Service = s3Service;
     this.imageService = imageService;
+    this.commentQueryService = commentQueryService;
   }
 
   // GET ITEM BY ITEM ID
@@ -245,25 +240,16 @@ public class ItemService {
   }
 
   public List<CommentModel> getCommentsByItemIdDesc(Long itemId) {
-    return commentRepository.findByItemIdOrderByCreatedAtDesc(itemId);
+    return commentQueryService.getCommentsByItemIdDesc(itemId);
   }
 
   public Integer countComments(Long itemId) {
-    return commentRepository.countByItemId(itemId);
+    return commentQueryService.countByItemId(itemId);
   }
 
+  // Helper for S3
   private String extractKeyFromUrl(String url) {
-    if (url == null || url.isEmpty()) {
-      throw new IllegalArgumentException("URL cannot be null or empty");
-    }
     int lastSlash = url.lastIndexOf('/');
-    if (lastSlash == -1 || lastSlash == url.length() - 1) {
-      throw new IllegalArgumentException("Invalid S3 URL format: " + url);
-    }
-
-    System.out.println("\u001B[32mExtracted key from URL: " + url.substring(lastSlash + 1) + "\u001B[0m");
     return url.substring(lastSlash + 1);
-
   }
-
 }
