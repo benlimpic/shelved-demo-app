@@ -1,6 +1,4 @@
 spring:
-  profiles:
-    active: demo
   datasource:
     # url: jdbc:postgresql://localhost:5432/dev_shelved
     # username: shelved_user
