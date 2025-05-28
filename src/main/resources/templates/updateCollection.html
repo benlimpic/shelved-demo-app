@@ -25,7 +25,7 @@
             <li>
               <a href="/profile">
                 <img
-                  class="h-7 w-7 rounded-full bg-white"
+                  class="bg-white rounded-full h-7 w-7"
                   th:src="${user != null && user.profilePictureUrl != null ? user.profilePictureUrl : '/images/default-profile-photo.png'}"
                   alt="Profile Picture"
                 />
@@ -38,7 +38,7 @@
       <main class="bottom-0 overflow-y-auto">
 
         <!-- ERROR AND SUCCESS HANDLING -->
-        <div class="errorSuccessHandlingBox hidden">
+        <div class="hidden errorSuccessHandlingBox">
           <div
             id="successMessageDiv"
             class="success"
@@ -56,27 +56,27 @@
 
         <div class="container">
           <nav>
-            <span class="w-full text-center text-sm font-semibold text-slate-600">
+            <span class="w-full text-sm font-semibold text-center text-slate-600">
               Update Collection
             </span>
           </nav>
 
           <form
             id="updateCollectionForm"
-            class="flex flex-col w-full items-center justify-center"
+            class="flex flex-col items-center justify-center w-full"
             th:action="@{/update-collection/{id}(id=${collection.id})}"
             method="post"
             enctype="multipart/form-data">
 
               <div class="square">
                 <img
-                  class="aspect-square w-full"
+                  class="w-full aspect-square"
                   id="previewImage"
                   th:src="${collection?.imageUrl != null ? collection.imageUrl : '/images/collection_image.png'}"
                   alt="Collection Image"
                 />
               </div>
-              <div class="w-full flex flex-col justify-center items-center px-4 mt-4">
+              <div class="flex flex-col items-center justify-center w-full px-4 mt-4">
                 <div>
                   <a href="#" id="triggerUpload" class="mt-2">
                     <span class="text-sm font-semibold text-blue-500">
@@ -97,11 +97,12 @@
                 />
 
                 <!-- Title Field -->
-                <div class="flex flex-col w-full h-auto justify-center items-between">
-                  <div class="labelInputBox w-full">
+                <div class="flex flex-col justify-center w-full h-auto items-between"
+                >
+                  <div class="w-full labelInputBox">
                     <label class="label" for="title">Title:</label>
                     <input
-                      class="input w-full"
+                      class="w-full input"
                       type="text"
                       id="collectionTitle"
                       name="title"
@@ -112,11 +113,11 @@
                 </div>
 
                 <!-- Caption Field -->
-                <div class="flex flex-col w-full h-auto justify-center items-between">
-                  <div class="labelInputBox w-full">
+                <div class="flex flex-col justify-center w-full h-auto items-between">
+                  <div class="w-full labelInputBox">
                     <label class="label" for="caption">Caption:</label>
                     <input
-                      class="input w-full"
+                      class="w-full input"
                       type="text"
                       id="caption"
                       name="caption"
@@ -127,8 +128,8 @@
                 </div>
 
                 <!-- Submit Button -->
-                <div class="flex flex-row justify-center items-center mt-4">
-                  <button class="button bg-blue-600 hover:bg-blue-800" type="submit">
+                <div class="flex flex-row items-center justify-center mt-4">
+                  <button class="bg-blue-600 button hover:bg-blue-800" type="submit">
                     Update Collection
                   </button>
                 </div>
@@ -143,12 +144,12 @@
         <ul>
           <li></li>
           <li>
-            <div class="h-full w-full flex flex-col items-center justify-end">
+            <div class="flex flex-col items-center justify-end w-full h-full">
               <form th:action="@{/delete-collection/{id}(id=${collection.id})}" method="post">
                 <input type="hidden" name="_csrf" th:value="${_csrf?.token}" />
                 <div>
                   <button
-                    class="small-button bg-red-600 hover:bg-red-800 w-40"
+                    class="w-40 bg-red-600 small-button hover:bg-red-800"
                     type="submit"
                     onclick="return confirm('Are you sure you want to delete this collection? This action cannot be undone.');"
                   >

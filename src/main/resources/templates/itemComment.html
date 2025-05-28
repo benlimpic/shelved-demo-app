@@ -54,7 +54,7 @@
           <li>
             <div th:if="${isOwner != null && isOwner}">
               <a
-                class="bg-blue-500 hover:bg-blue-700 text-white text-xs px-1 py-0.5 rounded"
+                class="px-1 text-xs text-white bg-blue-500 rounded hover:bg-blue-700 py-0.5"
                 id="redirectUpdateItemDetails"
                 th:href="@{/update-item/{itemId}(itemId=${item?.id})}"
               >
@@ -68,7 +68,7 @@
 
     <main th:id="'item-' + ${item.id}">
       <!-- ERROR AND SUCCESS HANDLING -->
-      <div class="errorSuccessHandlingBox hidden">
+      <div class="hidden errorSuccessHandlingBox">
         <div
           id="successMessageDiv"
           class="success"
@@ -85,7 +85,7 @@
 
       <!-- ITEM NAV -->
       <div class="container flex flex-col h-full">
-        <div class="box flex flex-col">
+        <div class="flex flex-col box">
           <nav>
             <ul>
               <li class="pr-2">
@@ -123,7 +123,7 @@
             <!-- Overlay -->
             <div
               id="itemOverlay"
-              class="overlay absolute bottom-0 left-0 w-full h-full bg-black bg-opacity-70 text-white text-sm p-2 hidden"
+              class="absolute bottom-0 left-0 hidden w-full h-full p-2 text-sm text-white bg-black overlay bg-opacity-70"
             >
               <div class="flex flex-col justify-start items-between">
                 <div>
@@ -138,7 +138,7 @@
               </div>
               <div>
                 <button
-                  class="absolute bottom-2 left-2 bg-blue-500 hover:bg-blue-700 text-xs px-2 py-1 rounded"
+                  class="absolute px-2 py-1 text-xs bg-blue-500 rounded bottom-2 left-2 hover:bg-blue-700"
                   id="openLinkButton"
                   th:href="${item?.itemLink}"
                   target="_blank"
@@ -151,13 +151,13 @@
             <!-- Toggle Button -->
             <button
               id="toggleButtonShowInfo"
-              class="toggle-overlay absolute bottom-2 right-2 bg-white text-black text-xs px-2 py-1 rounded z-20"
+              class="absolute z-20 px-2 py-1 text-xs text-black bg-white rounded toggle-overlay bottom-2 right-2"
             >
               Show Info
             </button>
             <button
               id="toggleButtonHideInfo"
-              class="toggle-overlay absolute bottom-2 right-2 bg-white text-black text-xs px-2 py-1 rounded z-20 hidden"
+              class="absolute z-20 hidden px-2 py-1 text-xs text-black bg-white rounded toggle-overlay bottom-2 right-2"
             >
               Hide Info
             </button>
@@ -256,23 +256,23 @@
         <!-- COMMENT BOX -->
         <div
           id="commentBox"
-          class="flex-1 pb-6 w-full overflow-y-auto"
+          class="flex-1 w-full pb-6 overflow-y-auto"
           th:value="${item.id}"
         >
           <!-- Comment Template -->
           <div
             th:id="'comment-' + ${comment.id}"
-            class="pt-3 px-3"
+            class="px-3 pt-3"
             th:each="comment : ${item.comments}"
           >
             <div
-              class="w-full h-auto flex flex-row justify-start items-start text-sm"
+              class="flex flex-row items-start justify-start w-full h-auto text-sm"
             >
               <!-- Profile Picture -->
               <div id="imageBoxComment" class="flex-shrink-0 w-10">
                 <a th:href="@{/profile/{id}(id=${comment.user.id})}">
                   <img
-                    class="h-7 w-7 rounded-full bg-white"
+                    class="bg-white rounded-full h-7 w-7"
                     th:src="${comment.user?.profilePictureUrl ?: '/images/default-profile-photo.png'}"
                     alt="Profile Picture"
                   />
@@ -283,7 +283,7 @@
                 id="contentBoxComment"
                 class="flex flex-col items-start w-full"
               >
-                <div class="flex flex-row justify-start items-start w-full">
+                <div class="flex flex-row items-start justify-start w-full">
                   <!-- Profile Link -->
                   <div class="flex items-start">
                     <a
@@ -299,7 +299,7 @@
                     </a>
                   </div>
                   <!-- Time Container -->
-                  <div class="pl-2 flex items-end">
+                  <div class="flex items-end pl-2">
                     <span
                       style="font-size: 8px; line-height: 1"
                       class="font-thin leading-[1]"
@@ -308,7 +308,7 @@
                     </span>
                   </div>
                 </div>
-                <div class="flex flex-row justify-start items-start">
+                <div class="flex flex-row items-start justify-start">
                   <span
                     class="font-light truncate-multiline"
                     onclick="toggleTruncate(this)"
@@ -317,7 +317,7 @@
                 </div>
                 <div
                   style="font-size: 8px; line-height: 1"
-                  class="commentReplyBox w-full flex flex-col justify-center items-start pt-1 pr-2 text-slate-500 font-semibold"
+                  class="flex flex-col items-start justify-center w-full pt-1 pr-2 font-semibold commentReplyBox text-slate-500"
                 >
                   <button
                     class="commentReplyButton"
@@ -333,23 +333,23 @@
 
                 <div
                   id="replyBox"
-                  class="flex-grow w-full bg-slate-100 overflow-y-auto"
+                  class="flex-grow w-full overflow-y-auto"
                   th:value="${item.id}"
                 >
                   <!-- Reply Template -->
                   <div
                     th:id="'reply-' + ${reply.id}"
-                    class="pt-3 px-3"
+                    class="px-3 pt-3"
                     th:each="reply : ${comment.replies}"
                   >
                     <div
-                      class="w-full h-auto flex flex-row justify-start items-start text-sm"
+                      class="flex flex-row items-start justify-start w-full h-auto text-sm"
                     >
                       <!-- Profile Picture -->
                       <div id="imageBoxComment" class="flex-shrink-0 w-10">
                         <a th:href="@{/profile/{id}(id=${reply.user.id})}">
                           <img
-                            class="h-7 w-7 rounded-full bg-white"
+                            class="bg-white rounded-full h-7 w-7"
                             th:src="${reply.user?.profilePictureUrl ?: '/images/default-profile-photo.png'}"
                             alt="Profile Picture"
                           />
@@ -361,7 +361,7 @@
                         class="flex flex-col items-start w-full"
                       >
                         <div
-                          class="flex flex-row justify-start items-start w-full"
+                          class="flex flex-row items-start justify-start w-full"
                         >
                           <!-- Profile Link -->
                           <div class="flex items-start">
@@ -378,7 +378,7 @@
                             </a>
                           </div>
                           <!-- Time Container -->
-                          <div class="pl-2 flex items-end">
+                          <div class="flex items-end pl-2">
                             <span
                               style="font-size: 8px; line-height: 1"
                               class="font-thin leading-[1]"
@@ -387,7 +387,7 @@
                             </span>
                           </div>
                         </div>
-                        <div class="flex flex-row justify-start items-start">
+                        <div class="flex flex-row items-start justify-start">
                           <span
                             class="font-light truncate-multiline"
                             onclick="toggleTruncate(this)"
@@ -396,7 +396,7 @@
                         </div>
                         <div
                           style="font-size: 8px; line-height: 1"
-                          class="replyReplyBox w-full flex flex-col justify-center items-start pt-1 pr-2 text-slate-500 font-semibold"
+                          class="flex flex-col items-start justify-center w-full pt-1 pr-2 font-semibold replyReplyBox text-slate-500"
                         >
                           <button
                             class="commentReplyReplyButton"
@@ -413,9 +413,9 @@
                       <div
                         th:if="${reply.id != null}"
                         th:id="'likeBox-' + ${reply.id}"
-                        class="flex flex-col justify-start items-center"
+                        class="flex flex-col items-center justify-start"
                       >
-                        <div class="flex flex-row justify-center items-center">
+                        <div class="flex flex-row items-center justify-center">
                           <form
                             th:if="${reply.id != null}"
                             th:action="@{/replies/{id}/like(id=${reply.id})}"
@@ -444,14 +444,14 @@
                             >
                               <span
                                 style="font-size: 10px; line-height: 1"
-                                class="font-medium text-xs"
+                                class="text-xs font-medium"
                                 th:if="${reply.isLiked}"
                               >
                                 &#9829;
                               </span>
                               <span
                                 style="font-size: 10px; line-height: 1"
-                                class="font-medium text-xs"
+                                class="text-xs font-medium"
                                 th:if="${!reply.isLiked}"
                               >
                                 &#9825;
@@ -466,19 +466,19 @@
                             >
                               <span
                                 style="font-size: 10px; line-height: 1"
-                                class="font-medium text-xs"
+                                class="text-xs font-medium"
                               >
                                 &#9829;
                               </span>
                             </button>
                           </form>
                         </div>
-                        <div class="flex flex-row justify-center items-center">
+                        <div class="flex flex-row items-center justify-center">
                           <p
                             th:if="${reply.id != null}"
                             th:id="'likeCount-' + ${reply.id}"
                             style="font-size: 10px; line-height: 1"
-                            class="font-thin text-xs"
+                            class="text-xs font-thin"
                             th:text="${reply.likeCount != null ? reply.likeCount : '0'}"
                           ></p>
                         </div>
@@ -491,9 +491,9 @@
               <div
                 th:if="${comment.id != null}"
                 th:id="'likeBox-' + ${comment.id}"
-                class="flex flex-col justify-start items-center"
+                class="flex flex-col items-center justify-start"
               >
-                <div class="flex flex-row justify-center items-center">
+                <div class="flex flex-row items-center justify-center">
                   <form
                     th:if="${comment.id != null}"
                     th:action="@{/comments/{id}/like(id=${comment.id})}"
@@ -518,14 +518,14 @@
                     >
                       <span
                         style="font-size: 10px; line-height: 1"
-                        class="font-medium text-xs"
+                        class="text-xs font-medium"
                         th:if="${comment.isLiked}"
                       >
                         &#9829;
                       </span>
                       <span
                         style="font-size: 10px; line-height: 1"
-                        class="font-medium text-xs"
+                        class="text-xs font-medium"
                         th:if="${!comment.isLiked}"
                       >
                         &#9825;
@@ -540,19 +540,19 @@
                     >
                       <span
                         style="font-size: 10px; line-height: 1"
-                        class="font-medium text-xs"
+                        class="text-xs font-medium"
                       >
                         &#9829;
                       </span>
                     </button>
                   </form>
                 </div>
-                <div class="flex flex-row justify-center items-center">
+                <div class="flex flex-row items-center justify-center">
                   <p
                     th:if="${comment.id != null}"
                     th:id="'likeCount-' + ${comment.id}"
                     style="font-size: 10px; line-height: 1"
-                    class="font-thin text-xs"
+                    class="text-xs font-thin"
                     th:text="${comment.likeCount != null ? comment.likeCount : '0'}"
                   ></p>
                 </div>
@@ -568,7 +568,7 @@
           <form
             th:action="@{/items/{itemId}/comments (itemId=${item.id})}"
             method="POST"
-            class="flex flex-row w-full items-center justify-center px-2"
+            class="flex flex-row items-center justify-center w-full px-2"
           >
             <a href="/profile" class="w-10">
               <img
@@ -583,12 +583,12 @@
               type="text"
               name="content"
               placeholder="Leave a comment..."
-              class="h-8 mx-2 px-2"
+              class="h-8 px-2 mx-2"
             />
             <button
               id="commentButton"
               type="submit"
-              class="text-sm bg-blue-500 text-white font-semibold text-center h-full w-7 ml-2"
+              class="h-full ml-2 text-sm font-semibold text-center text-white bg-blue-500 w-7"
             >
               <span>C</span>
             </button>
@@ -602,7 +602,7 @@
             id="commentReplyForm"
             method="POST"
             th:action="@{/items/{itemId}/replies (itemId=${item.id})}"
-            class="flex flex-row w-full items-center justify-center px-2"
+            class="flex flex-row items-center justify-center w-full px-2"
           >
             <a href="/profile" class="w-10">
               <img
@@ -617,7 +617,7 @@
               type="text"
               name="content"
               placeholder="Leave a comment..."
-              class="h-8 mx-2 px-2"
+              class="h-8 px-2 mx-2"
             />
 
             <input
@@ -632,7 +632,7 @@
             <button
               id="commentReplyButton"
               type="submit"
-              class="text-sm bg-red-500 text-white font-semibold text-center h-full w-7 ml-2"
+              class="h-full ml-2 text-sm font-semibold text-center text-white bg-red-500 w-7"
             >
               <span>R</span>
             </button>

@@ -14,9 +14,9 @@
   </head>
   <body>
     <header>
-      <nav class="navbar">
-        <ul class="flex justify-between items-center w-full">
-          <li class="flex items-center">
+      <nav>
+        <ul>
+          <li>
             <a id="backButton" th:href="@{/item/{id}(id=${item?.id})}">
               <span>&#8592;</span>
             </a>
@@ -24,7 +24,7 @@
           <li>
             <a href="/profile">
               <img
-                class="h-7 w-7 rounded-full bg-white"
+                class="bg-white rounded-full h-7 w-7"
                 th:src="${user != null && user.profilePictureUrl != null ? user.profilePictureUrl : '/images/default-profile-photo.png'}"
                 alt="Profile Picture"
               />
@@ -33,53 +33,48 @@
         </ul>
       </nav>
     </header>
-    <main class="bottom-12 overflow-y-auto">
-
-
-      
+    <main class="overflow-y-auto bottom-12">
       <!-- ERROR AND SUCCESS HANDLING -->
-      <div class="errorSuccessHandlingBox hidden">
+      <div class="hidden errorSuccessHandlingBox">
         <div
           id="successMessageDiv"
           class="success"
           th:if="${message}"
-          th:text="${message}">
-        </div>
+          th:text="${message}"
+        ></div>
         <div
           id="errorMessageDiv"
           class="failure"
           th:if="${error}"
-          th:text="${error}">
-        </div>
+          th:text="${error}"
+        ></div>
       </div>
-
 
       <div class="container">
         <nav>
-          <span class="w-full text-center text-sm font-semibold text-slate-600">
+          <span class="w-full text-sm font-semibold text-center text-slate-600">
             Update Item
           </span>
         </nav>
 
-        <div class="scrollable-container h-100vh">
-          <form
-            id="updateItemForm"
-            class="flex flex-col w-full items-center justify-center"
-            th:action="@{/update-item/{id}(id=${item.id})}"
-            method="post"
-            enctype="multipart/form-data"
-          >
-
-
+        <form
+          id="updateItemForm"
+          class="flex flex-col items-center justify-center w-full"
+          th:action="@{/update-item/{id}(id=${item.id})}"
+          method="post"
+          enctype="multipart/form-data"
+        >
           <div class="square">
             <img
-              class="aspect-square w-full"
+              class="w-full aspect-square"
               id="previewImage"
               th:src="${item?.imageUrl != null ? item.imageUrl : '/images/item_image.png'}"
               alt="Collection Image"
             />
           </div>
-          <div class="w-full flex flex-col justify-center items-center px-4 mt-4">
+          <div
+            class="flex flex-col items-center justify-center w-full px-4 mt-4"
+          >
             <div>
               <a href="#" id="triggerUpload" class="mt-2">
                 <span class="text-sm font-semibold text-blue-500">
@@ -88,104 +83,103 @@
               </a>
             </div>
 
+            <input type="hidden" name="_csrf" th:value="${_csrf?.token}" />
 
-              <input
-                type="hidden"
-                name="collectionId"
-                th:value="${collectionId}"
-              />
-              <input type="hidden" name="_csrf" th:value="${_csrf?.token}" />
+            <!-- File Upload Field -->
+            <input
+              type="file"
+              id="hiddenFileInput"
+              name="itemImage"
+              style="display: none"
+              accept="image/*"
+            />
 
-              <!-- File Upload Field -->
-              <input
-                type="file"
-                id="hiddenFileInput"
-                name="itemImage"
-                style="display: none"
-                accept="image/*"
-              />
+            <input
+              type="hidden"
+              name="collectionId"
+              th:value="${collectionId}"
+            />
 
-              <!-- Title Field -->
-              <div
-                class="flex flex-col w-full h-auto justify-center items-between"
-              >
-                <div class="labelInputBox w-full">
-                  <label class="label" for="title">Title:</label>
-                  <input
-                    class="input w-full"
-                    type="text"
-                    id="itemTitle"
-                    name="title"
-                    th:value="${item?.title}"
-                    placeholder="Title"
-                  />
-                </div>
-              </div>
-
-              <!-- Description Field -->
-              <div
-                class="flex flex-col w-full h-auto justify-center items-between"
-              >
-                <div class="labelInputBox w-full">
-                  <label class="label" for="description">Description:</label>
-                  <textarea
-                    class="input w-full"
-                    id="description"
-                    name="description"
-                    th:text="${item?.description}"
-                    placeholder="Description"
-                    rows="6"
-                    maxlength="255"
-                  ></textarea>
-                </div>
-              </div>
-
-              <!-- Item Link Field -->
-              <div
-                class="flex flex-col w-full h-auto justify-center items-between"
-              >
-                <div class="labelInputBox w-full">
-                  <label class="label" for="itemLink">Item Link:</label>
-                  <input
-                    class="input w-full"
-                    type="text"
-                    id="itemLink"
-                    name="itemLink"
-                    th:value="${item?.itemLink}"
-                    placeholder="http://example.com"
-                  />
-                </div>
-              </div>
-
-              <!-- Caption Field -->
-              <div
-                class="flex flex-col w-full h-auto justify-center items-between"
-              >
-                <div class="labelInputBox w-full">
-                  <label class="label" for="caption">Caption:</label>
-                  <input
-                    class="input w-full"
-                    type="text"
-                    id="caption"
-                    name="caption"
-                    th:value="${item?.caption}"
-                    placeholder="Caption"
-                  />
-                </div>
-              </div>
-
-              <!-- Submit Button -->
-              <div class="flex flex-row justify-center items-center mt-4 pb-8">
-                <button
-                  class="button bg-blue-600 hover:bg-blue-800"
-                  type="submit"
-                >
-                  Update Item
-                </button>
+            <!-- Title Field -->
+            <div
+              class="flex flex-col justify-center w-full h-auto items-between"
+            >
+              <div class="w-full labelInputBox">
+                <label class="label" for="title">Title:</label>
+                <input
+                  class="w-full input"
+                  type="text"
+                  id="itemTitle"
+                  name="title"
+                  th:value="${item?.title}"
+                  placeholder="Title"
+                />
               </div>
             </div>
-          </form>
-        </div>
+
+            <!-- Description Field -->
+            <div
+              class="flex flex-col justify-center w-full h-auto items-between"
+            >
+              <div class="w-full labelInputBox">
+                <label class="label" for="description">Description:</label>
+                <textarea
+                  class="w-full input"
+                  id="description"
+                  name="description"
+                  th:text="${item?.description}"
+                  placeholder="Description"
+                  rows="6"
+                  maxlength="255"
+                ></textarea>
+              </div>
+            </div>
+
+            <!-- Item Link Field -->
+            <div
+              class="flex flex-col justify-center w-full h-auto items-between"
+            >
+              <div class="w-full labelInputBox">
+                <label class="label" for="itemLink">Item Link:</label>
+                <input
+                  class="w-full input"
+                  type="text"
+                  id="itemLink"
+                  name="itemLink"
+                  th:value="${item?.itemLink}"
+                  placeholder="http://example.com"
+                />
+              </div>
+            </div>
+
+            <!-- Caption Field -->
+            <div
+              class="flex flex-col justify-center w-full h-auto items-between"
+            >
+              <div class="w-full labelInputBox">
+                <label class="label" for="caption">Caption:</label>
+                <input
+                  class="w-full input"
+                  type="text"
+                  id="caption"
+                  name="caption"
+                  th:value="${item?.caption}"
+                  placeholder="Caption"
+                />
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="flex flex-row items-center justify-center pb-8 mt-4">
+              <button
+                class="bg-blue-600 button hover:bg-blue-800"
+                type="submit"
+              >
+                Update Item
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
     </main>
     <footer>
@@ -193,7 +187,7 @@
         <ul>
           <li></li>
           <li>
-            <div class="h-full w-full flex flex-col items-center justify-end">
+            <div class="flex flex-col items-center justify-end w-full h-full">
               <form
                 th:action="@{/delete-item/{id}(id=${item.id})}"
                 method="post"
@@ -201,7 +195,7 @@
                 <input type="hidden" name="_csrf" th:value="${_csrf?.token}" />
                 <div>
                   <button
-                    class="small-button bg-red-600 hover:bg-red-800 w-40"
+                    class="w-40 bg-red-600 small-button hover:bg-red-800"
                     type="submit"
                     onclick="return confirm('Are you sure you want to delete this collection? This action cannot be undone.');"
                   >
