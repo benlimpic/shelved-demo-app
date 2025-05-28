@@ -23,7 +23,7 @@
           <li>
             <div th:if="${item.isOwner != null && item.isOwner}">
               <a
-                class=" text-white text-xs px-1 py-0.5 rounded"
+                class="px-1 text-xs text-white rounded py-0.5"
                 id="redirectUpdateItemDetails"
                 th:href="@{/update-item/{itemId}(itemId=${item?.id})}"
               >
@@ -35,27 +35,23 @@
       </nav>
     </header>
 
-
     <!-- ITEM CONTENT -->
     <main th:id="'collection-' + ${collection.id}">
-
-      
       <!-- ERROR AND SUCCESS HANDLING -->
-      <div class="errorSuccessHandlingBox hidden">
+      <div class="hidden errorSuccessHandlingBox">
         <div
           id="successMessageDiv"
           class="success"
           th:if="${message}"
-          th:text="${message}">
-        </div>
+          th:text="${message}"
+        ></div>
         <div
           id="errorMessageDiv"
           class="failure"
           th:if="${error}"
-          th:text="${error}">
-        </div>
+          th:text="${error}"
+        ></div>
       </div>
-
 
       <div class="container">
         <div class="box">
@@ -76,11 +72,11 @@
                 <a
                   th:href="@{/collection/{collectionId}(collectionId=${collection?.id})}"
                 >
-                <span
-                  class="text-sm font-semibold text-black"
-                  th:if="${collection?.title!= null}"
-                  th:text="${collection?.title}"
-                ></span>
+                  <span
+                    class="text-sm font-semibold text-black"
+                    th:if="${collection?.title!= null}"
+                    th:text="${collection?.title}"
+                  ></span>
                 </a>
               </li>
             </ul>
@@ -96,22 +92,19 @@
             <!-- Overlay -->
             <div
               id="itemOverlay"
-              class="overlay absolute bottom-0 left-0 w-full h-full bg-black bg-opacity-70 text-white text-sm p-2 hidden"
+              class="absolute bottom-0 left-0 hidden w-full h-full p-2 text-sm text-white bg-black overlay bg-opacity-70"
             >
               <div class="flex flex-col justify-start items-between">
                 <div>
                   <span class="font-semibold" th:text="${item?.title}"></span>
                 </div>
                 <div>
-                  <span
-                    class="text-xs font-thin"
-                    th:text="${item?.description}"
-                  ></span>
+                  <span class="text-sm" th:text="${item?.description}"></span>
                 </div>
               </div>
               <div>
                 <button
-                  class="absolute bottom-2 left-2 bg-blue-500 hover:bg-blue-700 text-xs px-2 py-1 rounded"
+                  class="absolute px-2 py-1 text-xs bg-blue-500 rounded bottom-2 left-2 hover:bg-blue-700"
                   id="openLinkButton"
                   th:href="${item?.itemLink}"
                   target="_blank"
@@ -124,21 +117,19 @@
             <!-- Toggle Button -->
             <button
               id="toggleButtonShowInfo"
-              class="toggle-overlay absolute bottom-2 right-2 bg-white text-black text-xs px-2 py-1 rounded z-20"
+              class="absolute z-20 px-2 py-1 text-xs text-black bg-white rounded toggle-overlay bottom-2 right-2"
             >
               Show Info
             </button>
             <button
               id="toggleButtonHideInfo"
-              class="toggle-overlay absolute bottom-2 right-2 bg-white text-black text-xs px-2 py-1 rounded z-20 hidden"
+              class="absolute z-20 hidden px-2 py-1 text-xs text-black bg-white rounded toggle-overlay bottom-2 right-2"
             >
               Hide Info
             </button>
           </div>
           <div class="caption-container">
-            <div
-              class="like-comment-container"
-            >
+            <div class="like-comment-container">
               <ul>
                 <li>
                   <div class="element">
@@ -167,16 +158,10 @@
                         class="likeButton"
                         th:if="${item.userId != user.id}"
                       >
-                        <span
-                          class="pr-2 font-medium"
-                          th:if="${item.isLiked}"
-                        >
+                        <span class="pr-2 font-medium" th:if="${item.isLiked}">
                           &#9829;
                         </span>
-                        <span
-                          class="pr-2 font-medium"
-                          th:if="${!item.isLiked}"
-                        >
+                        <span class="pr-2 font-medium" th:if="${!item.isLiked}">
                           &#9825;
                         </span>
                       </button>
@@ -198,10 +183,7 @@
                   <a th:href="@{/item/{id}/comments(id=${item?.id})}">
                     <span class="pr-2 font-medium">comment</span>
                   </a>
-                  <span
-                    class="font-thin"
-                    th:text="${item.commentCount}"
-                  ></span>
+                  <span class="font-thin" th:text="${item.commentCount}"></span>
                 </li>
               </ul>
             </div>
@@ -226,7 +208,7 @@
               </p>
             </div>
             <div class="small-date">
-            <!-- MONTH YEAR -->
+              <!-- MONTH YEAR -->
               <span
                 style="font-size: 9px"
                 class="font-extralight"
@@ -244,10 +226,7 @@
           <!-- Footer for owner -->
           <ul id="footerNavOwner">
             <li>
-              <div
-                id="homeButton"
-                class="icon"
-              >
+              <div id="homeButton" class="icon">
                 <a class="text-2xl font-bold" href="/index">&#8962;</a>
               </div>
             </li>

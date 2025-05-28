@@ -10,6 +10,8 @@ aws:
     AWS_S3_BUCKET_ITEM_IMAGES: shelved-item-images-benlimpic
 
 spring:
+  profiles:
+    active: dev
   web:
     resources:
       static-locations: classpath:/static/

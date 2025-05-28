@@ -39,22 +39,14 @@ public class SecurityConfig {
         });
     }
 
-    @Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+     @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     System.out.println("❌ SecurityConfig is ACTIVE");
 
     return http
-
-        // .headers(headers -> headers
-        //     .contentSecurityPolicy(csp -> csp.policyDirectives(
-        //         "default-src 'self'; " +
-        //         "script-src 'self' 'unsafe-inline'; " +
-        //         "style-src 'self' 'unsafe-inline'; " +
-        //         "img-src 'self' https://shelved-demo-bucket.s3.us-west-1.amazonaws.com data:;"
-        //     ))
-        
-
-        // )
+        .headers(headers -> headers
+            .frameOptions(frame -> frame.sameOrigin()) // Only allow embedding from same domain
+        )
         .csrf(csrf -> csrf
             .ignoringRequestMatchers("/api/**")
         )
@@ -83,48 +75,54 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
             })
         )
         .build();
+    }
 }
 
+//     @Bean
+// public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//     System.out.println("❌ SecurityConfig is ACTIVE");
 
-    // @Bean
-    // public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    // System.out.println("❌ SecurityConfig is ACTIVE");
+//     return http
 
-    // return http
-    //     .headers(headers -> headers
-    //         .frameOptions(frame -> frame.sameOrigin()) // Only allow embedding from same domain
-    //         .contentSecurityPolicy(csp -> csp.policyDirectives(
-    //             "default-src 'self'; " +
-    //             "script-src 'self' 'unsafe-inline'; " +
-    //             "frame-ancestors 'self' https://benlimpic.github.io/")) // Trusted iframe parent
-    //     )
-    //     .csrf(csrf -> csrf
-    //         .ignoringRequestMatchers("/api/**")
-    //     )
-    //     .authorizeHttpRequests(auth -> auth
-    //         .requestMatchers("/login", "/signup", "/css/**", "/js/**", "/images/**", "/search-live").permitAll()
-    //         .anyRequest().authenticated()
-    //     )
-    //     .formLogin(form -> form
-    //         .loginPage("/login")
-    //         .failureUrl("/login?error=true")
-    //         .defaultSuccessUrl("/index", true)
-    //         .permitAll()
-    //     )
-    //     .logout(logout -> logout
-    //         .logoutSuccessUrl("/login?logout=true")
-    //         .permitAll()
-    //     )
-    //     .exceptionHandling(e -> e
-    //         .authenticationEntryPoint((request, response, authException) -> {
-    //             String accept = request.getHeader("Accept");
-    //             if (accept != null && accept.contains("application/json")) {
-    //                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-    //             } else {
-    //                 response.sendRedirect("/login?iframe=true");
-    //             }
-    //         })
-    //     )
-    //     .build();
-    // }
-}
+//         // .headers(headers -> headers
+//         //     .contentSecurityPolicy(csp -> csp.policyDirectives(
+//         //         "default-src 'self'; " +
+//         //         "script-src 'self' 'unsafe-inline'; " +
+//         //         "style-src 'self' 'unsafe-inline'; " +
+//         //         "img-src 'self' https://shelved-demo-bucket.s3.us-west-1.amazonaws.com data:;"
+//         //     ))
+        
+
+//         // )
+//         .csrf(csrf -> csrf
+//             .ignoringRequestMatchers("/api/**")
+//         )
+//         .authorizeHttpRequests(auth -> auth
+//             .requestMatchers("/login", "/signup", "/css/**", "/js/**", "/images/**", "/search-live").permitAll()
+//             .anyRequest().authenticated()
+//         )
+//         .formLogin(form -> form
+//             .loginPage("/login")
+//             .failureUrl("/login?error=true")
+//             .defaultSuccessUrl("/index", true)
+//             .permitAll()
+//         )
+//         .logout(logout -> logout
+//             .logoutSuccessUrl("/login?logout=true")
+//             .permitAll()
+//         )
+//         .exceptionHandling(e -> e
+//             .authenticationEntryPoint((request, response, authException) -> {
+//                 String accept = request.getHeader("Accept");
+//                 if (accept != null && accept.contains("application/json")) {
+//                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+//                 } else {
+//                     response.sendRedirect("/login?iframe=true");
+//                 }
+//             })
+//         )
+//         .build();
+// }
+
+
+   

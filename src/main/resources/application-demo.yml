@@ -1,11 +1,13 @@
 spring:
+  profiles:
+    active: demo
   datasource:
-    # url: jdbc:postgresql://localhost:5432/dev_shelved
-    # username: shelved_user
-    # password: shelved_pass
-    url: ${JDBC_DATABASE_URL}
-    username: ${JDBC_DATABASE_USERNAME}
-    password: ${JDBC_DATABASE_PASSWORD}
+    url: jdbc:postgresql://localhost:5432/dev_shelved
+    username: shelved_user
+    password: shelved_pass
+    # url: ${JDBC_DATABASE_URL}
+    # username: ${JDBC_DATABASE_USERNAME}
+    # password: ${JDBC_DATABASE_PASSWORD}
   main:
     allow-circular-references: true
   jpa:
@@ -30,8 +32,8 @@ aws:
 
 server:
   port: 8080
-  # servlet:
-  #   session:
-  # cookie:
-  #   same-site: none
-  #   secure: true
+  servlet:
+    session:
+      cookie:
+        same-site: none
+        secure: true
