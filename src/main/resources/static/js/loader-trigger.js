@@ -3,12 +3,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
   document.querySelectorAll('form').forEach((form) => {
     form.addEventListener('submit', function (e) {
-      e.preventDefault(); // Prevent immediate navigation
+      e.preventDefault();
       loader.start();
+
       setTimeout(() => {
         form.submit();
-        loader.stop(); // Submit the form after 3 seconds
-      }, 3000);
+      }, 3000); // Give time for the animation before submission
     });
   });
 });
