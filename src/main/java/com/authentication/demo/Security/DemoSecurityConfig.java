@@ -36,8 +36,8 @@ public class DemoSecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-        return configuration.getAuthenticationManager();
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
     }
 
     @Bean
@@ -49,19 +49,18 @@ public class DemoSecurityConfig {
             .logout(logout -> logout.disable())
             .headers(headers -> headers
                 .frameOptions(frame -> frame.disable())
-                .contentSecurityPolicy(csp -> csp.policyDirectives("default-src * 'unsafe-inline' 'unsafe-eval' data: blob:"))
+                .contentSecurityPolicy(csp -> csp.policyDirectives(
+                    "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:"))
             )
             .exceptionHandling(e -> e
-                .authenticationEntryPoint((request, response, authException) -> {
-                    response.setStatus(HttpServletResponse.SC_OK);
-                })
+                .authenticationEntryPoint((req, res, ex) -> res.setStatus(HttpServletResponse.SC_OK))
             );
 
-        // Auto-authenticate pre-created user
-        http.addFilterBefore((request, response, chain) -> {
+        // Auto-authenticate the demo user on all requests
+        http.addFilterBefore((req, res, chain) -> {
             UserModel demoUser = userRepository.findByUsername("music-man").orElse(null);
             if (demoUser == null) {
-                throw new RuntimeException("Demo user not found. Please ensure it is seeded in the database.");
+                throw new RuntimeException("Demo user not found. Make sure to seed it.");
             }
 
             UserDetails userDetails = User.withUsername(demoUser.getUsername())
@@ -69,14 +68,12 @@ public class DemoSecurityConfig {
                 .roles("USER")
                 .build();
 
-            UsernamePasswordAuthenticationToken auth =
-                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-
+            var auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(auth);
-            chain.doFilter(request, response);
+
+            chain.doFilter(req, res);
         }, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 }
-
