@@ -44,13 +44,13 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
     System.out.println("❌ SecurityConfig is ACTIVE");
 
     return http
-        .headers(headers -> headers
-            .frameOptions(frame -> frame.sameOrigin()) // Only allow embedding from same domain
-            .contentSecurityPolicy(csp -> csp.policyDirectives(
-                "default-src 'self'; " +
-                "script-src 'self' 'unsafe-inline'; " +
-                "frame-ancestors 'self' https://benlimpic.github.io/")) // Trusted iframe parent
-        )
+        // .headers(headers -> headers
+        //     .frameOptions(frame -> frame.sameOrigin()) // Only allow embedding from same domain
+        //     .contentSecurityPolicy(csp -> csp.policyDirectives(
+        //         "default-src 'self'; " +
+        //         "script-src 'self' 'unsafe-inline'; " +
+        //         "frame-ancestors 'self' https://benlimpic.github.io/")) // Trusted iframe parent
+        // )
         .csrf(csrf -> csrf
             .ignoringRequestMatchers("/api/**")
         )

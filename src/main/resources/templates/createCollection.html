@@ -7,28 +7,27 @@
 
     <title>Create Collection</title>
     <link rel="stylesheet" href="/css/output.css" />
-    
+
     <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
     <script th:src="@{/js/previewFile.js}" defer></script>
     <script th:src="@{/js/fadeAnimations.js}" defer></script>
   </head>
   <body>
-      
     <!-- ERROR AND SUCCESS HANDLING -->
-<div class="errorSuccessHandlingBox hidden">
-  <div
-    id="successMessageDiv"
-    class="success"
-    th:if="${message}"
-    th:text="${message}">
-  </div>
-  <div
-    id="errorMessageDiv"
-    class="failure"
-    th:if="${error}"
-    th:text="${error}">
-  </div>
-</div>
+    <div class="hidden errorSuccessHandlingBox">
+      <div
+        id="successMessageDiv"
+        class="success"
+        th:if="${message}"
+        th:text="${message}"
+      ></div>
+      <div
+        id="errorMessageDiv"
+        class="failure"
+        th:if="${error}"
+        th:text="${error}"
+      ></div>
+    </div>
 
     <header>
       <nav>
@@ -50,35 +49,33 @@
         </ul>
       </nav>
     </header>
-    <main class="bottom-0 overflow-y-auto pb-12">
-
-
+    <main class="bottom-0 pb-12 overflow-y-auto">
       <div class="container">
         <nav>
-          <span class="w-full text-center text-sm font-semibold text-slate-600">
+          <span class="w-full text-sm font-semibold text-center text-slate-600">
             Create Collection
           </span>
         </nav>
 
-
         <form
           id="createCollectionForm"
-          class="flex flex-col w-full items-center justify-center"
+          class="flex flex-col items-center justify-center w-full"
           action="/create_collection"
           method="post"
           enctype="multipart/form-data"
         >
-
           <div class="square">
             <img
-              class="aspect-square w-full"
+              class="w-full aspect-square"
               id="previewImage"
               th:src="${'/images/collection_image.png'}"
               alt="Default Collection Image"
             />
           </div>
 
-          <div class="w-full flex flex-col justify-center items-center px-4 mt-4">
+          <div
+            class="flex flex-col items-center justify-center w-full px-4 mt-4"
+          >
             <div>
               <a href="#" id="triggerUpload" class="mt-2">
                 <span class="text-sm font-semibold text-blue-500">
@@ -94,16 +91,18 @@
               type="file"
               id="hiddenFileInput"
               name="collectionImage"
-              style="display: none"
+              class="hidden"
               accept="image/*"
             />
 
             <!-- Title Field -->
-            <div class="flex flex-col w-full h-auto justify-center items-between">
-              <div class="labelInputBox w-full">
+            <div
+              class="flex flex-col justify-center w-full h-auto items-between"
+            >
+              <div class="w-full labelInputBox">
                 <label class="label" for="title">Title:</label>
                 <input
-                  class="input w-full"
+                  class="w-full input"
                   type="text"
                   id="collectionTitle"
                   name="title"
@@ -113,11 +112,13 @@
             </div>
 
             <!-- Caption Field -->
-            <div class="flex flex-col w-full h-auto justify-center items-between">
-              <div class="labelInputBox w-full">
+            <div
+              class="flex flex-col justify-center w-full h-auto items-between"
+            >
+              <div class="w-full labelInputBox">
                 <label class="label" for="caption">Caption:</label>
                 <input
-                  class="input w-full"
+                  class="w-full input"
                   type="text"
                   id="caption"
                   name="caption"
@@ -127,8 +128,11 @@
             </div>
 
             <!-- Submit Button -->
-            <div class="flex flex-row justify-center items-center mt-4">
-              <button class="button bg-blue-600 hover:bg-blue-800" type="submit">
+            <div class="flex flex-row items-center justify-center mt-4">
+              <button
+                class="bg-blue-600 button hover:bg-blue-800"
+                type="submit"
+              >
                 Create Collection
               </button>
             </div>
