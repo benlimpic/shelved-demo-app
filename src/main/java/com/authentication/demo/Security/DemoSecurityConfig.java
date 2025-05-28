@@ -27,7 +27,7 @@ public class DemoSecurityConfig {
     private final UserRepository userRepository;
 
     public DemoSecurityConfig(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    this.userRepository = userRepository;
     }
 
     @Bean
@@ -36,45 +36,44 @@ public class DemoSecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+        return configuration.getAuthenticationManager();
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-            System.out.println("🟢 DemoSecurityConfig is ACTIVE");
-        http
-            .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-            .csrf(csrf -> csrf.disable())
-            .formLogin(form -> form.disable())
-            .logout(logout -> logout.disable())
-            .headers(headers -> headers
-                .frameOptions(frame -> frame.disable())
-                .contentSecurityPolicy(csp -> csp.policyDirectives(
-                    "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:"))
-            )
-            .exceptionHandling(e -> e
-                .authenticationEntryPoint((req, res, ex) -> res.setStatus(HttpServletResponse.SC_OK))
-            );
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http
+        .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+        .csrf(csrf -> csrf.disable())
+        .formLogin(form -> form.disable())
+        .logout(logout -> logout.disable())
+        .headers(headers -> headers
+            .frameOptions(frame -> frame.disable()) // Allow iframes from anywhere
+            .contentSecurityPolicy(csp -> csp.policyDirectives("default-src * 'unsafe-inline' 'unsafe-eval' data: blob:")) // Relaxed for demo
+        )
+        .exceptionHandling(e -> e
+            .authenticationEntryPoint((request, response, authException) -> {
+                response.setStatus(HttpServletResponse.SC_OK);
+            })
+        );
 
-        // Auto-authenticate the demo user on all requests
-        http.addFilterBefore((req, res, chain) -> {
-            UserModel demoUser = userRepository.findByUsername("music-man").orElse(null);
-            if (demoUser == null) {
-                throw new RuntimeException("Demo user not found. Make sure to seed it.");
-            }
-
+    // Automatically authenticate demo user on every request
+    http.addFilterBefore((request, response, chain) -> {
+        UserModel demoUser = userRepository.findByUsername("music-man").orElse(null);
+        if (demoUser != null) {
             UserDetails userDetails = User.withUsername(demoUser.getUsername())
                 .password(demoUser.getPassword())
                 .roles("ROLE_USER")
                 .build();
 
-            var auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            UsernamePasswordAuthenticationToken auth =
+                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
             SecurityContextHolder.getContext().setAuthentication(auth);
+        }
+        chain.doFilter(request, response);
+    }, UsernamePasswordAuthenticationFilter.class);
 
-            chain.doFilter(req, res);
-        }, UsernamePasswordAuthenticationFilter.class);
-
-        return http.build();
+    return http.build();
     }
 }
