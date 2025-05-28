@@ -44,15 +44,15 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
     System.out.println("❌ SecurityConfig is ACTIVE");
 
     return http
+
         .headers(headers -> headers
-            .frameOptions(frame -> frame.sameOrigin())
             .contentSecurityPolicy(csp -> csp.policyDirectives(
                 "default-src 'self'; " +
-                "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; " +
+                "script-src 'self' 'unsafe-inline'; " +
                 "style-src 'self' 'unsafe-inline'; " +
-                "img-src 'self' data:; " +
-                "frame-ancestors 'self' https://benlimpic.github.io"
+                "img-src 'self' https://shelved-demo-bucket.s3.us-west-1.amazonaws.com data:;"
             ))
+        
 
         )
         .csrf(csrf -> csrf
