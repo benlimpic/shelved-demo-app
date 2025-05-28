@@ -78,7 +78,6 @@ class ShelvedLoader {
         opacity: 0;
         pointer-events: none;
         z-index: 99999;
-        transition: opacity 0.3s;
       }
     `;
     document.head.appendChild(style);
@@ -221,12 +220,13 @@ class ShelvedLoader {
   stop = function () {
     const overlay = document.getElementById('overlay');
     if (overlay) {
-      overlay.style.opacity = '0';
-      overlay.style.pointerEvents = 'none';
-      setTimeout(() => {
-        overlay.style.display = 'none'; // fully removes it from layout flow
-      }, 300); // match your transition duration
+      overlay.remove(); // Instantly remove from DOM
     }
+    if (this.wrapper) {
+      this.wrapper.remove(); // Also remove the logo wrapper
+    }
+    this.running = false;
+    cancelAnimationFrame(this.animationFrame);
   };
 }
 
