@@ -20,7 +20,7 @@ class ShelvedLoader {
   }
 
   injectHTML() {
-    if (document.getElementById('logoWrapper')) return; // Prevent duplicates
+    if (document.getElementById('logoWrapper')) return;
     const loaderHTML = `
       <div class="logo-wrapper" id="logoWrapper" style="display:none;">
         <img id="logo" src="/images/Shelved_Logo_White.png" alt="Logo">
@@ -53,11 +53,13 @@ class ShelvedLoader {
         z-index: 100000;
         display: none;
       }
+
       #logo {
         width: 200px;
         height: auto;
         display: block;
       }
+
       .blob, .explosion-particle {
         position: absolute;
         width: 6px;
@@ -66,14 +68,20 @@ class ShelvedLoader {
         border-radius: 50%;
         pointer-events: none;
         opacity: 1;
-        z-index: 100001; /* <-- higher than #overlay and .logo-wrapper */
+        z-index: 100001;
       }
+
       #overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
         background: #1a69e9;
-        opacity: 1 !important;
+        opacity: 0;
         pointer-events: all;
-        transition: none !important;
         z-index: 99999;
+        transition: opacity 0.3s ease-in-out;
       }
     `;
     document.head.appendChild(style);
@@ -146,7 +154,7 @@ class ShelvedLoader {
     this.exploded = false;
     this.wrapper.style.display = 'block';
     this.overlay.style.opacity = 1;
-    this.spawnMeteorBlobs(400, 1750); // Spawn blobs at the start of each animation loop
+    this.spawnMeteorBlobs(400, 1750);
     const startTime = performance.now();
     const updateLogo = (t) => {
       if (!this.running) return;
@@ -161,8 +169,7 @@ class ShelvedLoader {
           skewX: 0,
           skewY: 0,
         });
-        // Immediately start the next animation loop
-        this.animateLogo();
+        this.animateLogo(); // Loop
         return;
       }
       if (timeSec <= 2) {
@@ -201,32 +208,21 @@ class ShelvedLoader {
 
   startLoop() {
     if (!this.running) return;
-    this.animateLogo(); // Only call animateLogo, not spawnMeteorBlobs here
+    this.animateLogo();
   }
 
   start() {
     if (this.running) return;
     this.running = true;
     this.wrapper.style.display = 'block';
-    // Fade in blue background
-    this.overlay.style.opacity = 1;
+    this.overlay.style.opacity = 1; // Triggers fade-in via CSS
     this.startLoop();
   }
 
-  stop = function () {
-    const overlay = document.getElementById('overlay');
-    if (overlay) {
-      overlay.remove(); // Instantly remove from DOM
-    }
-    if (this.wrapper) {
-      this.wrapper.remove(); // Also remove the logo wrapper
-    }
+  stop() {
     this.running = false;
     cancelAnimationFrame(this.animationFrame);
-  };
+    if (this.wrapper) this.wrapper.remove();
+    if (this.overlay) this.overlay.remove();
+  }
 }
-
-// Usage example:
-// const loader = new ShelvedLoader();
-// loader.start(); // Show and animate loader
-// loader.stop();  // Hide and clean up loader
