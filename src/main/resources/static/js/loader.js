@@ -12,6 +12,7 @@ class ShelvedLoader {
     this.exploded = false;
     this.running = false;
     this.animationFrame = null;
+
     this._resizeHandler = () => {
       this.centerX = window.innerWidth / 2;
       this.centerY = window.innerHeight / 2;
@@ -79,10 +80,10 @@ class ShelvedLoader {
         height: 100vh;
         background: #1a69e9;
         opacity: 0;
-        pointer-events: all;
+        pointer-events: none;
         z-index: 99999;
         transition: opacity 0.3s ease-in-out;
-        display: block; /* <- Always block, never none */
+        display: block;
       }
     `;
     document.head.appendChild(style);
@@ -105,6 +106,7 @@ class ShelvedLoader {
       blob.style.left = `${startX}px`;
       blob.style.top = `${startY}px`;
       this.body.appendChild(blob);
+
       const travelTime = 1.3 + Math.random() * 0.5;
       gsap.to(blob, {
         x: this.centerX - startX,
@@ -121,6 +123,7 @@ class ShelvedLoader {
           });
         },
       });
+
       setTimeout(spawn, spawnInterval);
     };
     for (let i = 0; i < 10; i++) spawn();
@@ -135,10 +138,12 @@ class ShelvedLoader {
       p.style.left = `${this.centerX}px`;
       p.style.top = `${this.centerY}px`;
       this.body.appendChild(p);
+
       const angle = Math.random() * Math.PI * 2;
       const distance = 300 + Math.random() * 400;
       const dx = Math.cos(angle) * distance;
       const dy = Math.sin(angle) * distance;
+
       gsap.to(p, {
         x: dx,
         y: dy,
@@ -154,13 +159,14 @@ class ShelvedLoader {
     this.logoAbsorbCount = 0;
     this.exploded = false;
     this.wrapper.style.display = 'block';
-    this.overlay.style.opacity = 1;
     this.spawnMeteorBlobs(400, 1750);
+
     const startTime = performance.now();
     const updateLogo = (t) => {
       if (!this.running) return;
       const elapsed = t - startTime;
       const timeSec = elapsed / 1000;
+
       if (timeSec >= 3) {
         gsap.set(this.wrapper, {
           scale: 0,
@@ -173,6 +179,7 @@ class ShelvedLoader {
         this.animateLogo(); // Loop
         return;
       }
+
       if (timeSec <= 2) {
         const progress = Math.min(
           this.logoAbsorbCount / this.maxAbsorbCount,
@@ -184,6 +191,7 @@ class ShelvedLoader {
         const rz = Math.sin(timeSec * 7) * 3;
         const skewX = Math.sin(timeSec * 4) * 3;
         const skewY = Math.cos(timeSec * 3) * 2;
+
         gsap.set(this.wrapper, {
           scale,
           rotationX: rx,
@@ -193,6 +201,7 @@ class ShelvedLoader {
           skewY,
         });
       }
+
       if (timeSec >= 2 && !this.exploded) {
         this.exploded = true;
         gsap.to(this.wrapper, {
@@ -202,8 +211,10 @@ class ShelvedLoader {
           onComplete: () => this.explodeLogo(),
         });
       }
+
       this.animationFrame = requestAnimationFrame(updateLogo);
     };
+
     this.animationFrame = requestAnimationFrame(updateLogo);
   }
 
@@ -215,17 +226,21 @@ class ShelvedLoader {
   start() {
     if (this.running) return;
     this.running = true;
-    this.wrapper.style.display = 'block';
+
+    // Prepare overlay
     this.overlay.style.opacity = 0;
-    // Force reflow to apply transition
-    void this.overlay.offsetHeight;
+    this.overlay.style.pointerEvents = 'all';
+    void this.overlay.offsetHeight; // Force reflow
     this.overlay.style.opacity = 1;
+
+    this.wrapper.style.display = 'block';
     this.startLoop();
   }
 
   stop() {
     this.running = false;
     cancelAnimationFrame(this.animationFrame);
+
     if (this.wrapper) this.wrapper.remove();
     if (this.overlay) this.overlay.remove();
   }

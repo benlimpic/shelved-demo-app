@@ -1,14 +1,14 @@
-const routeAfter = () => {
-  if (typeof loader !== 'undefined' && typeof loader.start === 'function') {
+function routeAfter() {
+  if (
+    typeof loader !== 'undefined' &&
+    typeof loader.start === 'function' &&
+    typeof loader.stop === 'function'
+  ) {
     loader.start();
-
-    // Force DOM paint before routing by chaining requestAnimationFrame
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        window.location.href = '/index';
-      }, 3000);
-    });
+    setTimeout(() => {
+      window.location.href = '/index';
+    }, 3000); // Only navigate after loader finishes
   } else {
     window.location.href = '/index';
   }
-};
+}
