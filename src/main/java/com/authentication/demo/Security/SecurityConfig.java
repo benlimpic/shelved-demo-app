@@ -17,7 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
-@Profile("!demo")
+@Profile("demo")
 public class SecurityConfig {
 
     @Bean
@@ -44,9 +44,6 @@ public class SecurityConfig {
     System.out.println("❌ SecurityConfig is ACTIVE");
 
     return http
-        .headers(headers -> headers
-            .frameOptions(frame -> frame.sameOrigin()) // Only allow embedding from same domain
-        )
         .csrf(csrf -> csrf
             .ignoringRequestMatchers("/api/**")
         )
@@ -77,52 +74,3 @@ public class SecurityConfig {
         .build();
     }
 }
-
-//     @Bean
-// public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//     System.out.println("❌ SecurityConfig is ACTIVE");
-
-//     return http
-
-//         // .headers(headers -> headers
-//         //     .contentSecurityPolicy(csp -> csp.policyDirectives(
-//         //         "default-src 'self'; " +
-//         //         "script-src 'self' 'unsafe-inline'; " +
-//         //         "style-src 'self' 'unsafe-inline'; " +
-//         //         "img-src 'self' https://shelved-demo-bucket.s3.us-west-1.amazonaws.com data:;"
-//         //     ))
-        
-
-//         // )
-//         .csrf(csrf -> csrf
-//             .ignoringRequestMatchers("/api/**")
-//         )
-//         .authorizeHttpRequests(auth -> auth
-//             .requestMatchers("/login", "/signup", "/css/**", "/js/**", "/images/**", "/search-live").permitAll()
-//             .anyRequest().authenticated()
-//         )
-//         .formLogin(form -> form
-//             .loginPage("/login")
-//             .failureUrl("/login?error=true")
-//             .defaultSuccessUrl("/index", true)
-//             .permitAll()
-//         )
-//         .logout(logout -> logout
-//             .logoutSuccessUrl("/login?logout=true")
-//             .permitAll()
-//         )
-//         .exceptionHandling(e -> e
-//             .authenticationEntryPoint((request, response, authException) -> {
-//                 String accept = request.getHeader("Accept");
-//                 if (accept != null && accept.contains("application/json")) {
-//                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-//                 } else {
-//                     response.sendRedirect("/login?iframe=true");
-//                 }
-//             })
-//         )
-//         .build();
-// }
-
-
-   

@@ -21,7 +21,7 @@ import com.authentication.demo.Repository.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
-@Profile("demo")
+@Profile("!demo")
 public class DemoSecurityConfig {
 
     private final UserRepository userRepository;
