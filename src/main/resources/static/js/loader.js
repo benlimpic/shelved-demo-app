@@ -218,15 +218,16 @@ class ShelvedLoader {
     this.startLoop();
   }
 
-  stop() {
-    this.running = false;
-    this.wrapper.style.display = 'none';
-    if (this.animationFrame) cancelAnimationFrame(this.animationFrame);
-    // Remove all blobs and particles
-    document
-      .querySelectorAll('.blob, .explosion-particle')
-      .forEach((el) => el.remove());
-  }
+  stop = function () {
+    const overlay = document.getElementById('overlay');
+    if (overlay) {
+      overlay.style.opacity = '0';
+      overlay.style.pointerEvents = 'none';
+      setTimeout(() => {
+        overlay.style.display = 'none'; // fully removes it from layout flow
+      }, 300); // match your transition duration
+    }
+  };
 }
 
 // Usage example:
