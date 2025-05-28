@@ -48,10 +48,12 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
             .frameOptions(frame -> frame.sameOrigin())
             .contentSecurityPolicy(csp -> csp.policyDirectives(
                 "default-src 'self'; " +
-                "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
+                "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; " +
                 "style-src 'self' 'unsafe-inline'; " +
                 "img-src 'self' data:; " +
-                "frame-ancestors 'self' https://benlimpic.github.io;"))
+                "frame-ancestors 'self' https://benlimpic.github.io"
+            ))
+
         )
         .csrf(csrf -> csrf
             .ignoringRequestMatchers("/api/**")

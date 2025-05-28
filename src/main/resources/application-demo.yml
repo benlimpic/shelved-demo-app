@@ -1,11 +1,11 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/dev_shelved
-    username: shelved_user
-    password: shelved_pass
-    # url: ${JDBC_DATABASE_URL}
-    # username: ${JDBC_DATABASE_USERNAME}
-    # password: ${JDBC_DATABASE_PASSWORD}
+    # url: jdbc:postgresql://localhost:5432/dev_shelved
+    # username: shelved_user
+    # password: shelved_pass
+    url: ${JDBC_DATABASE_URL}
+    username: ${JDBC_DATABASE_USERNAME}
+    password: ${JDBC_DATABASE_PASSWORD}
   main:
     allow-circular-references: true
   jpa:
