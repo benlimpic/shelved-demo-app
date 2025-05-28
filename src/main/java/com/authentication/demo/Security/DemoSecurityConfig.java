@@ -1,7 +1,5 @@
 package com.authentication.demo.Security;
 
-import java.util.Arrays;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -20,17 +18,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.authentication.demo.Model.UserModel;
 import com.authentication.demo.Repository.UserRepository;
 
-import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
-@Profile("!demo")
+@Profile("demo")
 public class DemoSecurityConfig {
 
     private final UserRepository userRepository;
 
     public DemoSecurityConfig(UserRepository userRepository) {
-    this.userRepository = userRepository;
+        this.userRepository = userRepository;
     }
 
     @Bean
@@ -43,46 +40,30 @@ public class DemoSecurityConfig {
         return configuration.getAuthenticationManager();
     }
 
-    @PostConstruct
-    public void createDemoUser() {
-        if (userRepository.findByUsername("demo").isEmpty()) {
-            UserModel demoUser = new UserModel();
-            demoUser.setUsername("demo");
-            demoUser.setPassword(passwordEncoder().encode("password"));
-            demoUser.setFirstName("Demo");
-            demoUser.setLastName("User");
-            demoUser.setEmail("demo@demo.com");
-            demoUser.setWebsite("https://demo.com");
-            demoUser.setLocation("Demo City");
-            demoUser.setBiography("This is a demo user for testing purposes. We hope you enjoy exploring our application!");
-            demoUser.setRoles(Arrays.asList("ROLE_USER"));
-            demoUser.setCreatedAt(new java.sql.Timestamp(System.currentTimeMillis()));
-            demoUser.setUpdatedAt(new java.sql.Timestamp(System.currentTimeMillis()));
-            userRepository.save(demoUser);
-        }
-    }
-
     @Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http
-        .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-        .csrf(csrf -> csrf.disable())
-        .formLogin(form -> form.disable())
-        .logout(logout -> logout.disable())
-        .headers(headers -> headers
-            .frameOptions(frame -> frame.disable()) // Allow iframes from anywhere
-            .contentSecurityPolicy(csp -> csp.policyDirectives("default-src * 'unsafe-inline' 'unsafe-eval' data: blob:")) // Relaxed for demo
-        )
-        .exceptionHandling(e -> e
-            .authenticationEntryPoint((request, response, authException) -> {
-                response.setStatus(HttpServletResponse.SC_OK);
-            })
-        );
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+            .csrf(csrf -> csrf.disable())
+            .formLogin(form -> form.disable())
+            .logout(logout -> logout.disable())
+            .headers(headers -> headers
+                .frameOptions(frame -> frame.disable())
+                .contentSecurityPolicy(csp -> csp.policyDirectives("default-src * 'unsafe-inline' 'unsafe-eval' data: blob:"))
+            )
+            .exceptionHandling(e -> e
+                .authenticationEntryPoint((request, response, authException) -> {
+                    response.setStatus(HttpServletResponse.SC_OK);
+                })
+            );
 
-    // Automatically authenticate demo user on every request
-    http.addFilterBefore((request, response, chain) -> {
-        UserModel demoUser = userRepository.findByUsername("demo").orElse(null);
-        if (demoUser != null) {
+        // Auto-authenticate pre-created user
+        http.addFilterBefore((request, response, chain) -> {
+            UserModel demoUser = userRepository.findByUsername("demo").orElse(null);
+            if (demoUser == null) {
+                throw new RuntimeException("Demo user not found. Please ensure it is seeded in the database.");
+            }
+
             UserDetails userDetails = User.withUsername(demoUser.getUsername())
                 .password(demoUser.getPassword())
                 .roles("USER")
@@ -92,10 +73,10 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
                 new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
             SecurityContextHolder.getContext().setAuthentication(auth);
-        }
-        chain.doFilter(request, response);
-    }, UsernamePasswordAuthenticationFilter.class);
+            chain.doFilter(request, response);
+        }, UsernamePasswordAuthenticationFilter.class);
 
-    return http.build();
+        return http.build();
     }
 }
+
