@@ -75,10 +75,10 @@ class ShelvedLoader {
         width: 100vw;
         height: 100vh;
         background: #1a69e9;
-        opacity: 1 !important;  /* Always fully visible when active */
-        pointer-events: all;
+        opacity: 0;
+        pointer-events: none;
         z-index: 99999;
-        transition: none; /* Remove fade animation entirely */
+        transition: opacity 0.3s;
       }
     `;
     document.head.appendChild(style);
