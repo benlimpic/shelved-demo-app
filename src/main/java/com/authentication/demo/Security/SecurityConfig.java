@@ -45,16 +45,16 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
 
     return http
 
-        .headers(headers -> headers
-            .contentSecurityPolicy(csp -> csp.policyDirectives(
-                "default-src 'self'; " +
-                "script-src 'self' 'unsafe-inline'; " +
-                "style-src 'self' 'unsafe-inline'; " +
-                "img-src 'self' https://shelved-demo-bucket.s3.us-west-1.amazonaws.com data:;"
-            ))
+        // .headers(headers -> headers
+        //     .contentSecurityPolicy(csp -> csp.policyDirectives(
+        //         "default-src 'self'; " +
+        //         "script-src 'self' 'unsafe-inline'; " +
+        //         "style-src 'self' 'unsafe-inline'; " +
+        //         "img-src 'self' https://shelved-demo-bucket.s3.us-west-1.amazonaws.com data:;"
+        //     ))
         
 
-        )
+        // )
         .csrf(csrf -> csrf
             .ignoringRequestMatchers("/api/**")
         )
