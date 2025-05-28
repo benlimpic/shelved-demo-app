@@ -59,7 +59,10 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
 
     // Automatically authenticate demo user on every request
     http.addFilterBefore((request, response, chain) -> {
-        UserModel demoUser = userRepository.findByUsername("music-man").orElse(null);
+        UserModel demoUser = null;
+            if (SecurityContextHolder.getContext().getAuthentication() == null) {
+                demoUser = userRepository.findByUsername("music-man").orElse(null);
+            }
         if (demoUser != null) {
             UserDetails userDetails = User.withUsername(demoUser.getUsername())
                 .password(demoUser.getPassword())
