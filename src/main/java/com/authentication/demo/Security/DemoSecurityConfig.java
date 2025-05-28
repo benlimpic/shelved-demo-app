@@ -66,7 +66,7 @@ public class DemoSecurityConfig {
 
             UserDetails userDetails = User.withUsername(demoUser.getUsername())
                 .password(demoUser.getPassword())
-                .roles("USER")
+                .roles("ROLE_USER")
                 .build();
 
             var auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
