@@ -59,7 +59,7 @@ public class DemoSecurityConfig {
 
         // Auto-authenticate pre-created user
         http.addFilterBefore((request, response, chain) -> {
-            UserModel demoUser = userRepository.findByUsername("demo").orElse(null);
+            UserModel demoUser = userRepository.findByUsername("music-man").orElse(null);
             if (demoUser == null) {
                 throw new RuntimeException("Demo user not found. Please ensure it is seeded in the database.");
             }
