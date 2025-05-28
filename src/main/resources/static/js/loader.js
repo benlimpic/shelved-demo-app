@@ -82,6 +82,7 @@ class ShelvedLoader {
         pointer-events: all;
         z-index: 99999;
         transition: opacity 0.3s ease-in-out;
+        display: block; /* <- Always block, never none */
       }
     `;
     document.head.appendChild(style);
@@ -215,7 +216,10 @@ class ShelvedLoader {
     if (this.running) return;
     this.running = true;
     this.wrapper.style.display = 'block';
-    this.overlay.style.opacity = 1; // Triggers fade-in via CSS
+    this.overlay.style.opacity = 0;
+    // Force reflow to apply transition
+    void this.overlay.offsetHeight;
+    this.overlay.style.opacity = 1;
     this.startLoop();
   }
 
