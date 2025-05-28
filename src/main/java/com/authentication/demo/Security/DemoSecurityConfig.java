@@ -66,7 +66,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
         if (demoUser != null) {
             UserDetails userDetails = User.withUsername(demoUser.getUsername())
                 .password(demoUser.getPassword())
-                .roles("ROLE_USER")
+                .roles(demoUser.getRoles().toArray(String[]::new))
                 .build();
 
             UsernamePasswordAuthenticationToken auth =
