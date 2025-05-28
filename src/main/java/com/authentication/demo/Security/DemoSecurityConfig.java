@@ -42,6 +42,7 @@ public class DemoSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+            System.out.println("🟢 DemoSecurityConfig is ACTIVE");
         http
             .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
             .csrf(csrf -> csrf.disable())
