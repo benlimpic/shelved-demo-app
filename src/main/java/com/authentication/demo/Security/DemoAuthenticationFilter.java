@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
-@Profile("!demo")
+@Profile("demo")
 public class DemoAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
