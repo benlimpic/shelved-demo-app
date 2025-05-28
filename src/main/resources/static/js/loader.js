@@ -69,16 +69,11 @@ class ShelvedLoader {
         z-index: 100001; /* <-- higher than #overlay and .logo-wrapper */
       }
       #overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
         background: #1a69e9;
-        opacity: 0;
-        pointer-events: none;
+        opacity: 1 !important;
+        pointer-events: all;
+        transition: none !important;
         z-index: 99999;
-        transition: opacity 0.3s;
       }
     `;
     document.head.appendChild(style);
