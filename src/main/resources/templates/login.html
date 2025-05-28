@@ -7,12 +7,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="/js/loader.js"></script>
     <script src="/js/loader-trigger.js"></script>
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        window.loader = new ShelvedLoader();
-        loader.start();
-      });
-    </script>
     <script th:src="@{/js/fadeAnimations.js}" defer></script>
   </head>
   <body class="bg-blue-700">
@@ -96,11 +90,5 @@
         </div>
       </div>
     </main>
-    <script>
-      // Stop the loader when the DOM is fully loaded
-      document.addEventListener('DOMContentLoaded', function () {
-        loader.stop();
-      });
-    </script>
   </body>
 </html>
