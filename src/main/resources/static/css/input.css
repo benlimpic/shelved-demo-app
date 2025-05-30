@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    background-color: #1a69e9;
+  }
+
   body {
     position: fixed;
     display: flex;
