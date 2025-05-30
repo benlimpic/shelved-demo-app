@@ -13,7 +13,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 
 # Node modules (if frontend included)
-node_modules/
+/node_modules/
 
 # IDE specific
 .idea/

@@ -1147,10 +1147,6 @@ label {
   /* Equivalent to px-5 */
 }
 
-.visible {
-  visibility: visible;
-}
-
 .fixed {
   position: fixed;
 }

@@ -1,0 +1,33 @@
+aws:
+  s3:
+    credentials:
+      access-key: ${AWS_ACCESS_KEY_ID}
+      secret-key: ${AWS_SECRET_ACCESS_KEY}
+    region:
+      static: ${AWS_REGION}
+    AWS_S3_BUCKET_PROFILE_IMAGES: shelved-profile-pictures-benlimpic
+    AWS_S3_BUCKET_COLLECTION_IMAGES: shelved-collection-images-benlimpic
+    AWS_S3_BUCKET_ITEM_IMAGES: shelved-item-images-benlimpic
+
+spring:
+  web:
+    resources:
+      static-locations: classpath:/static/
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 4MB
+      max-request-size: 4MB
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/registration
+    username: postgres
+    password: postgres
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+server:
+  port: 9090
