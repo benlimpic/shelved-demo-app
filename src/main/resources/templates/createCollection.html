@@ -127,15 +127,59 @@
               </div>
             </div>
 
-            <!-- Submit Button -->
-            <div class="flex flex-row items-center justify-center mt-4">
+            <!-- Functional Submit Button -->
+            <!-- <div class="flex flex-row items-center justify-center mt-4">
               <button
                 class="bg-blue-600 button hover:bg-blue-800"
                 type="submit"
               >
                 Create Collection
-              </button>
+              </button> -->
+
+            <!-- Demo Submit Button -->
+            <div class="flex flex-row items-center justify-center mt-4">
+              <div class="flex flex-col items-center space-y-3">
+                <!-- Create Button -->
+                <button
+                  type="button"
+                  class="bg-blue-600 button hover:bg-blue-800"
+                  onclick="document.getElementById('demoNotice').classList.remove('hidden')"
+                >
+                  Create Collection
+                </button>
+
+                <!-- Subtle Info Message -->
+                <div
+                  id="demoNotice"
+                  class="flex items-center hidden w-auto max-w-xs gap-2 px-4 py-2 mt-4 text-sm font-medium bg-yellow-100 border-l-8 border-yellow-500 rounded-lg shadow text-slate-800 min-w-[220px]"
+                  role="status"
+                >
+                  <span>
+                    <span class="text-xl font-semibold text-yellow-600">
+                      Demo mode:
+                    </span>
+                    <br />
+                    Some actions are disabled.
+                    <br />
+                    <span class="py-2 text-xs">
+                      This is a demo version of Shelved, you can browse and
+                      interact with posts and users, but some features are
+                      limited.
+                    </span>
+                  </span>
+                  <button
+                    type="button"
+                    onclick="this.parentElement.classList.add('hidden')"
+                    class="ml-2 text-lg text-yellow-500 hover:text-blue-700 focus:outline-none"
+                    aria-label="Dismiss"
+                    style="line-height: 1"
+                  >
+                    &times;
+                  </button>
+                </div>
+              </div>
             </div>
+            <!-- Demo Submit Button -->
           </div>
         </form>
       </div>

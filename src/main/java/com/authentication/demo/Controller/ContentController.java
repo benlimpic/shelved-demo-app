@@ -79,7 +79,7 @@ public class ContentController {
         return "signup";
     }
 
-    @GetMapping(path = {"/index"})
+    @GetMapping("/index")
     public String index(Model model) {
 
         // Fetch current user

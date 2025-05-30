@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Profile("demo")
 public class DemoSplashController {
 
+
     @GetMapping("/")
     public String splash() {
         return "splash";

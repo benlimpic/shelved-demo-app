@@ -14,7 +14,7 @@
   <body>
     <header>
       <nav class="navbar">
-        <ul class="flex justify-between items-center w-full">
+        <ul class="flex items-center justify-between w-full">
           <li class="flex">
             <a id="backButton" th:href="${user != null} ? '/profile/' + ${user.id} : '/profile'">
               <span>&#8592;</span>
@@ -32,7 +32,7 @@
 
       
       <!-- ERROR AND SUCCESS HANDLING -->
-      <div class="errorSuccessHandlingBox hidden">
+      <div class="hidden errorSuccessHandlingBox">
         <div
           id="successMessageDiv"
           class="success"
@@ -48,57 +48,57 @@
       </div>
 
 
-      <div class="h-auto w-full">
-        <nav class="flex flex-col justify-center items-center mt-2 p-2">
+      <div class="w-full h-auto">
+        <nav class="flex flex-col items-center justify-center p-2 mt-2">
           <h1 class="formHeader">Account Details</h1>
         </nav>
 
         <!-- Username -->
-        <div id="updateUsernameButton" class="grid grid-cols-5 w-full bg-white">
-          <p class=" text-slate-400 flex items-center col-span-1 text-xs p-2 border-t-2 border-l-2 border border-slate-300">Username</p>
-          <a id="updateUsername" class="col-span-4 text-sm text-blue-600 p-2 border-t-2 border-r-2 border border-slate-300" name="username" th:text="${user?.username ?: ''}"></a>
+        <div id="updateUsernameButton" class="grid w-full grid-cols-5 bg-white">
+          <p class="flex items-center col-span-1 p-2 text-xs border border-t-2 border-l-2 text-slate-400 border-slate-300">Username</p>
+          <a id="updateUsername" class="col-span-4 p-2 text-sm text-blue-600 border border-t-2 border-r-2 border-slate-300" name="username" th:text="${user?.username ?: ''}"></a>
         </div>
         <!-- Name -->
-        <div id="updateNameButton" class="grid grid-cols-5 w-full bg-white">
-          <p class=" text-slate-400 flex items-center col-span-1 text-xs p-2 border-l-2 border  border-slate-300">Name</p>
-          <a id="name" class="col-span-4 text-sm text-blue-600 p-2 border-r-2 border border-slate-300" name="name" th:text="${user?.firstName != null || user?.lastName != null ? (user?.firstName + ' ' + user?.lastName) : 'Add Name'}"></a>
+        <div id="updateNameButton" class="grid w-full grid-cols-5 bg-white">
+          <p class="flex items-center col-span-1 p-2 text-xs border border-l-2 text-slate-400 border-slate-300">Name</p>
+          <a id="name" class="col-span-4 p-2 text-sm text-blue-600 border border-r-2 border-slate-300" name="name" th:text="${user?.firstName != null || user?.lastName != null ? (user?.firstName + ' ' + user?.lastName) : 'Add Name'}"></a>
         </div>
         <!-- Email -->
-        <div id="updateEmailButton" class="grid grid-cols-5 w-full bg-white">
-          <p class=" text-slate-400 flex items-center col-span-1 text-xs p-2 border-l-2 border border-slate-300">Email</p>
-          <a id="updateEmail" class="col-span-4 text-sm text-blue-600 p-2 border-r-2 border border-slate-300" name="email" th:text="${user?.email != null ? user?.email : 'Add Email'}"></a>
+        <div id="updateEmailButton" class="grid w-full grid-cols-5 bg-white">
+          <p class="flex items-center col-span-1 p-2 text-xs border border-l-2 text-slate-400 border-slate-300">Email</p>
+          <a id="updateEmail" class="col-span-4 p-2 text-sm text-blue-600 border border-r-2 border-slate-300" name="email" th:text="${user?.email != null ? user?.email : 'Add Email'}"></a>
         </div>
         <!-- Password -->
-        <div id="updatePasswordButton" class="grid grid-cols-5 w-full bg-white">
-          <p class=" text-slate-400 flex items-center col-span-1 text-xs p-2 border-l-2 border-b-2 border border-slate-300">Password</p>
-          <a id="updatePassword" class="col-span-4 text-sm text-blue-600 p-2 border-r-2 border-b-2 border border-slate-300" name="password">Update Password</a>
+        <div id="updatePasswordButton" class="grid w-full grid-cols-5 bg-white">
+          <p class="flex items-center col-span-1 p-2 text-xs border border-b-2 border-l-2 text-slate-400 border-slate-300">Password</p>
+          <a id="updatePassword" class="col-span-4 p-2 text-sm text-blue-600 border border-b-2 border-r-2 border-slate-300" name="password">Update Password</a>
         </div>
       </div>
 
       <div class="flex flex-col items-center justify-center w-full">
-        <div id="updateBox" class="hidden flex flex-col items-center justify-center w-full px-4 pb-4">
+        <div id="updateBox" class="flex flex-col items-center justify-center hidden w-full px-4 pb-4">
           <!-- USER DETAILS -->
-          <h3 id="accountDetailsHeader" class="text-xl font-bold text-blue-500 p-4"></h3>
+          <h3 id="accountDetailsHeader" class="p-4 text-xl font-bold text-blue-500"></h3>
 
           <!-- UPDATE USERNAME FORM-->
           <form
-            class="hidden flex flex-col items-center justify-center w-full"
+            class="flex flex-col items-center justify-center hidden w-full"
             id="updateUsernameForm" th:action="@{/update_username}" method="post" >
             <div class="flex flex-col items-center w-full pb-2">
               <div class="w-full px-4 pb-2">
                 <div class="flex justify-start w-full">
-                  <label class="label text-xs" for="username">New Username</label>
+                  <label class="text-xs label" for="username">New Username</label>
                 </div>
                 <input class="w-full" type="text" id="updateUsername" name="username" placeholder="New Username" required>
               </div>
             </div>
-            <div class="flex flex-col justify-center items-center ">
-              <div class="button bg-blue-600 hover:bg-blue-800 mb-2">
+            <div class="flex flex-col items-center justify-center ">
+              <div class="mb-2 bg-blue-600 button hover:bg-blue-800">
                 <button class="submitButton" type="submit">
                   Update
                 </button>
               </div>
-              <div class="small-button bg-slate-600 hover:bg-slate-800 mb-2">
+              <div class="mb-2 small-button bg-slate-600 hover:bg-slate-800">
                 <button
                   id="cancelUpdateUsernameButton"
                   type="button"
@@ -112,30 +112,30 @@
 
           <!-- UPDATE NAME FORM-->
           <form
-            class="hidden flex flex-col items-center justify-center w-full"
+            class="flex flex-col items-center justify-center hidden w-full"
             id="updateNameForm"
             th:action="@{/update_name}"
             method="post">
             <div class="flex flex-col items-center w-full pb-2">
               <div class="w-full px-4 pb-2">
                 <div class="flex justify-start w-full">
-                  <label class="label text-xs" for="firstName">First Name</label>
+                  <label class="text-xs label" for="firstName">First Name</label>
                 </div>
                 <input class="w-full" id="firstNameInput" name="firstName" placeholder="First Name"></input>
               </div>
               <div class="w-full px-4 pb-2">
                 <div class="flex justify-start w-full">
-                  <label class="label text-xs"  for="lastName">Last Name</label>
+                  <label class="text-xs label"  for="lastName">Last Name</label>
                 </div>
                 <input class="w-full" id="lastNameInput" name="lastName" placeholder="Last Name"></input>
               </div>
             </div>
-            <div class="button bg-blue-600 hover:bg-blue-800 mb-2">
+            <div class="mb-2 bg-blue-600 button hover:bg-blue-800">
               <button class="submitButton" type="submit">
                 Update
               </button>
             </div>
-            <div class="small-button bg-slate-600 hover:bg-slate-800 mb-2">
+            <div class="mb-2 small-button bg-slate-600 hover:bg-slate-800">
               <button
                   id="cancelUpdateNameButton"
                   type="button"
@@ -147,28 +147,28 @@
 
           <!-- UPDATE EMAIL FORM-->
           <form
-            class="hidden flex flex-col items-center justify-center w-full"
+            class="flex flex-col items-center justify-center hidden w-full"
             id="updateEmailForm"
             th:action="@{/update_email}"
             method="post">
             <div class="flex flex-col items-center w-full pb-2">
               <div class="w-full px-4 pb-2">
                 <div class="flex justify-start w-full">
-                  <label class="label text-xs" for="newEmail">New Email</label>
+                  <label class="text-xs label" for="newEmail">New Email</label>
                 </div>
                 <input class="w-full" type="email" id="newEmail" name="newEmail" placeholder="New Email" required>
               </div>
               <div class="w-full px-4 pb-2">
                 <div class="flex justify-start w-full">
-                  <label class="label text-xs"  for="confirmNewEmail">Confirm New Email</label>
+                  <label class="text-xs label"  for="confirmNewEmail">Confirm New Email</label>
                 </div>
                 <input class="w-full" type="email" id="confirmNewEmail" name="confirmNewEmail" placeholder="Confirm New Email" required>
               </div>
             </div>
-            <div class="button bg-blue-600 hover:bg-blue-800 mb-2">
+            <div class="mb-2 bg-blue-600 button hover:bg-blue-800">
               <button class="submitButton" type="submit">Update</button>
             </div>
-            <div class="small-button bg-slate-600 hover:bg-slate-800 mb-2">
+            <div class="mb-2 small-button bg-slate-600 hover:bg-slate-800">
               <button
                 id="cancelUpdateEmailButton"
                 type="button"
@@ -179,14 +179,14 @@
 
           <!-- UPDATE PASSWORD FORM-->
           <form
-            class="hidden flex flex-col items-center justify-center w-full"
+            class="flex flex-col items-center justify-center hidden w-full"
             id="updatePasswordForm"
             th:action="@{/update_password}"
             method="post">
             <div class="flex flex-col items-center w-full pb-4">
               <div class="w-full px-4 pb-2">
                 <div class="flex justify-start w-full">
-                  <label class="label text-xs" for="currentPassword">
+                  <label class="text-xs label" for="currentPassword">
                     Current Password
                   </label>
                 </div>
@@ -194,7 +194,7 @@
               </div>
               <div class="w-full px-4 pb-2">
                 <div class="flex justify-start w-full">
-                  <label class="label text-xs" for="newPassword">
+                  <label class="text-xs label" for="newPassword">
                     New Password
                   </label>
                 </div>
@@ -202,7 +202,7 @@
               </div>
               <div class="w-full px-4 pb-2">
                 <div class="flex justify-start w-full">
-                  <label class="label text-xs" for="confirmNewPassword">
+                  <label class="text-xs label" for="confirmNewPassword">
                     Confirm New Password
                   </label>
                 </div>
@@ -210,13 +210,13 @@
               </div>
             </div>
 
-            <div class="button bg-blue-600 hover:bg-blue-800 mb-2">
+            <div class="mb-2 bg-blue-600 button hover:bg-blue-800">
               <button class="submitButton" type="submit">
                 Update
               </button>
             </div>
 
-            <div class="small-button bg-slate-600 hover:bg-slate-800 mb-2">
+            <div class="mb-2 small-button bg-slate-600 hover:bg-slate-800">
               <button
               id="cancelUpdatePasswordButton"
               type="button"
@@ -229,12 +229,12 @@
 
           <!-- DELETE USER FORM -->
           <form
-            class="hidden flex-col items-center justify-center w-full" id="deleteAccountForm" th:action="@{/delete_user}" method="post" >
+            class="flex-col items-center justify-center hidden w-full" id="deleteAccountForm" th:action="@{/delete_user}" method="post" >
             
             <input type="hidden" name="username" th:value="${user != null ? user.username : ''}" />
             <div class="flex flex-col items-center w-full pb-2">
               <div class="w-full px-4 pb-2">
-                <label id="confirmDeleteLabel" for="confirmDelete" class="label text-xs text-red-600" >
+                <label id="confirmDeleteLabel" for="confirmDelete" class="text-xs text-red-600 label" >
                   Type 'DELETE' To Confirm
                 </label>
                 <input class="w-full"
@@ -245,16 +245,16 @@
                   required
                 />
               </div>
-              <p class="text-xs text-red-600 m-1">This Action Cannot be Undone</p>
+              <p class="m-1 text-xs text-red-600">This Action Cannot be Undone</p>
             </div>
-            <div class="flex flex-row justify-center items-center mb-2">
+            <div class="flex flex-row items-center justify-center mb-2">
               <button
                 type="submit"
-                class="button bg-red-600 hover:bg-red-800">
+                class="bg-red-600 button hover:bg-red-800">
                 Delete
               </button>
             </div>
-            <div class="flex flex-row justify-center items-center mb-2">
+            <div class="flex flex-row items-center justify-center mb-2">
               <button
                 id="cancelDeleteButton"
                 type="button"
@@ -263,6 +263,51 @@
             </div>
           </form>
         </div>
+            
+        <!-- DEMO NOTICE -->
+        <div class="flex flex-row items-center justify-center mt-4">
+          <div class="flex flex-col items-center space-y-3">
+            <!-- Create Button -->
+            <button
+              type="button"
+              class="bg-blue-600 button hover:bg-blue-800"
+              onclick="document.getElementById('demoNotice').classList.remove('hidden')"
+            >
+              Create Item
+            </button>
+
+            <!-- Subtle Info Message -->
+            <div
+              id="demoNotice"
+              class="flex items-center hidden w-auto max-w-xs gap-2 px-4 py-2 mt-4 text-sm font-medium bg-yellow-100 border-l-8 border-yellow-500 rounded-lg shadow text-slate-800 min-w-[220px]"
+              role="status"
+            >
+              <span>
+                <span class="text-xl font-semibold text-yellow-600">
+                  Demo mode:
+                </span>
+                <br />
+                Some actions are disabled.
+                <br />
+                <span class="py-2 text-xs">
+                  This is a demo version of Shelved, you can browse and
+                  interact with posts and users, but some features are
+                  limited.
+                </span>
+              </span>
+              <button
+                type="button"
+                onclick="this.parentElement.classList.add('hidden')"
+                class="ml-2 text-lg text-yellow-500 hover:text-blue-700 focus:outline-none"
+                aria-label="Dismiss"
+                style="line-height: 1"
+              >
+                &times;
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- DEMO NOTICE -->
       </div>
     </main>
     <footer>
@@ -270,9 +315,21 @@
         <ul>
           <li></li>
           <li>
-            <div class="h-full w-full flex flex-col items-center justify-end">
-              <a class="small-button bg-red-500 hover:bg-red-700 w-40" id="deleteAccountButton">Delete Account</a>
+            <!-- Functional Delete Button -->
+            <!-- <div class="flex flex-col items-center justify-end w-full h-full">
+              <a class="w-40 bg-red-500 small-button hover:bg-red-700" id="deleteAccountButton">Delete Account</a>
+            </div> -->
+
+            <!-- Demo Delete Button -->
+            <div class="flex flex-col items-center justify-end w-full h-full"></div>
+              <a
+                class="w-40 bg-red-600 small-button hover:bg-red-800"
+                type="button"
+                onclick="document.getElementById('demoNotice').classList.remove('hidden')"
+              >Delete Account</a>
             </div>
+            <!-- Demo Delete Button -->
+
           </li>
           <li></li>
         </ul>

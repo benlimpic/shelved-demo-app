@@ -14,7 +14,7 @@
   </head>
   <body>
     <!-- ERROR AND SUCCESS HANDLING -->
-    <div class="errorSuccessHandlingBox hidden">
+    <div class="hidden errorSuccessHandlingBox">
       <div
         id="successMessageDiv"
         class="success"
@@ -49,41 +49,46 @@
         </ul>
       </nav>
     </header>
-    <main class="bottom-0 overflow-y-auto pb-12">
+    <main class="bottom-0 pb-12 overflow-y-auto">
       <div class="container">
         <nav>
-          <span class="w-full text-center text-sm font-semibold text-slate-600">
+          <span class="w-full text-sm font-semibold text-center text-slate-600">
             Create Item
           </span>
         </nav>
 
         <form
           id="createItemForm"
-          class="flex flex-col w-full items-center justify-center"
+          class="flex flex-col items-center justify-center w-full"
           th:action="@{/create-item/{collectionId}(collectionId=${collectionId})}"
           method="post"
           enctype="multipart/form-data"
         >
           <div class="square">
             <img
-              class="aspect-square w-full"
+              class="w-full aspect-square"
               id="previewImage"
               th:src="${'/images/item_image.png'}"
               alt="Default Collection Image"
             />
           </div>
 
-          <div class="w-full flex flex-col justify-center items-center px-4 mt-4">
+          <div
+            class="flex flex-col items-center justify-center w-full px-4 mt-4"
+          >
             <div>
               <a href="#" id="triggerUpload" class="mt-2">
                 <span class="text-sm font-semibold text-blue-500">
-              Update Item Image
+                  Update Item Image
                 </span>
               </a>
             </div>
 
-
-            <input type="hidden" name="collectionId" th:value="${collectionId}" />
+            <input
+              type="hidden"
+              name="collectionId"
+              th:value="${collectionId}"
+            />
 
             <input type="hidden" name="_csrf" th:value="${_csrf?.token}" />
             <!-- File Upload Field -->
@@ -97,11 +102,13 @@
             />
 
             <!-- Title Field -->
-            <div class="flex flex-col w-full h-auto justify-center items-between">
-              <div class="labelInputBox w-full">
+            <div
+              class="flex flex-col justify-center w-full h-auto items-between"
+            >
+              <div class="w-full labelInputBox">
                 <label class="label" for="title">Title:</label>
                 <input
-                  class="input w-full"
+                  class="w-full input"
                   type="text"
                   id="collectionTitle"
                   name="title"
@@ -111,11 +118,13 @@
             </div>
 
             <!-- Description Field -->
-            <div class="flex flex-col w-full h-auto justify-center items-between">
-              <div class="labelInputBox w-full">
+            <div
+              class="flex flex-col justify-center w-full h-auto items-between"
+            >
+              <div class="w-full labelInputBox">
                 <label class="label" for="description">Description:</label>
                 <textarea
-                  class="input w-full"
+                  class="w-full input"
                   type="text"
                   id="description"
                   name="description"
@@ -127,11 +136,13 @@
             </div>
 
             <!-- Item Link Field -->
-            <div class="flex flex-col w-full h-auto justify-center items-between">
-              <div class="labelInputBox w-full">
+            <div
+              class="flex flex-col justify-center w-full h-auto items-between"
+            >
+              <div class="w-full labelInputBox">
                 <label class="label" for="itemLink">Item Link:</label>
                 <input
-                  class="input w-full"
+                  class="w-full input"
                   type="text"
                   id="itemLink"
                   name="itemLink"
@@ -141,11 +152,13 @@
             </div>
 
             <!-- Caption Field -->
-            <div class="flex flex-col w-full h-auto justify-center items-between">
-              <div class="labelInputBox w-full">
+            <div
+              class="flex flex-col justify-center w-full h-auto items-between"
+            >
+              <div class="w-full labelInputBox">
                 <label class="label" for="caption">Caption:</label>
                 <input
-                  class="input w-full"
+                  class="w-full input"
                   type="text"
                   id="caption"
                   name="caption"
@@ -154,12 +167,57 @@
               </div>
             </div>
 
-            <!-- Submit Button -->
-            <div class="flex flex-row justify-center items-center mt-4">
-              <button class="button bg-blue-600 hover:bg-blue-800" type="submit">
+            <!--Functional Submit Button -->
+            <!-- <div class="flex flex-row items-center justify-center mt-4">
+              <button class="bg-blue-600 button hover:bg-blue-800" type="submit">
                 Create Item
               </button>
+            </div> -->
+
+            <!--Demo Response Submit Button -->
+            <div class="flex flex-row items-center justify-center mt-4">
+              <div class="flex flex-col items-center space-y-3">
+                <!-- Create Button -->
+                <button
+                  type="button"
+                  class="bg-blue-600 button hover:bg-blue-800"
+                  onclick="document.getElementById('demoNotice').classList.remove('hidden')"
+                >
+                  Create Item
+                </button>
+
+                <!-- Subtle Info Message -->
+                <div
+                  id="demoNotice"
+                  class="flex items-center hidden w-auto max-w-xs gap-2 px-4 py-2 mt-4 text-sm font-medium bg-yellow-100 border-l-8 border-yellow-500 rounded-lg shadow text-slate-800 min-w-[220px]"
+                  role="status"
+                >
+                  <span>
+                    <span class="text-xl font-semibold text-yellow-600">
+                      Demo mode:
+                    </span>
+                    <br />
+                    Some actions are disabled.
+                    <br />
+                    <span class="py-2 text-xs">
+                      This is a demo version of Shelved, you can browse and
+                      interact with posts and users, but some features are
+                      limited.
+                    </span>
+                  </span>
+                  <button
+                    type="button"
+                    onclick="this.parentElement.classList.add('hidden')"
+                    class="ml-2 text-lg text-yellow-500 hover:text-blue-700 focus:outline-none"
+                    aria-label="Dismiss"
+                    style="line-height: 1"
+                  >
+                    &times;
+                  </button>
+                </div>
+              </div>
             </div>
+            <!--Demo Response Submit Button -->
           </div>
         </form>
       </div>

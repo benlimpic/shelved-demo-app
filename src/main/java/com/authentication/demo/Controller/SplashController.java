@@ -29,7 +29,7 @@ import com.authentication.demo.Service.UserService;
 
 
 @Controller
-@Profile("!demo")
+@Profile("prod")
 public class SplashController {
 
     private final UserRepository repository;

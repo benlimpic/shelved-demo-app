@@ -27,7 +27,7 @@ public class DemoSecurityConfig {
     private final UserRepository userRepository;
 
     public DemoSecurityConfig(UserRepository userRepository) {
-    this.userRepository = userRepository;
+        this.userRepository = userRepository;
     }
 
     @Bean
@@ -36,47 +36,61 @@ public class DemoSecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-        return configuration.getAuthenticationManager();
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
     }
 
     @Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http
-        .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-        .csrf(csrf -> csrf.disable())
-        .formLogin(form -> form.disable())
-        .logout(logout -> logout.disable())
-        .headers(headers -> headers
-            .frameOptions(frame -> frame.disable()) // Allow iframes from anywhere
-            .contentSecurityPolicy(csp -> csp.policyDirectives("default-src * 'unsafe-inline' 'unsafe-eval' data: blob:")) // Relaxed for demo
-        )
-        .exceptionHandling(e -> e
-            .authenticationEntryPoint((request, response, authException) -> {
-                response.setStatus(HttpServletResponse.SC_OK);
-            })
-        );
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/login", "/logout").denyAll() // ❌ block login/logout access
+                .anyRequest().permitAll()
+            )
+            .csrf(csrf -> csrf.disable())
+            .formLogin(form -> form.disable())
+            .logout(logout -> logout.disable())
+            .headers(headers -> headers
+                .frameOptions(frame -> frame.disable())
+                .contentSecurityPolicy(csp -> csp.policyDirectives("default-src * 'unsafe-inline' 'unsafe-eval' data: blob:"))
+            )
+            .exceptionHandling(e -> e
+                .authenticationEntryPoint((request, response, authException) -> {
+                    response.setStatus(HttpServletResponse.SC_OK);
+                })
+                .accessDeniedHandler((request, response, accessDeniedException) -> {
+                    response.sendRedirect("/index"); // ✅ redirect if blocked access
+                })
+            );
 
-    // Automatically authenticate demo user on every request
-    http.addFilterBefore((request, response, chain) -> {
-        UserModel demoUser = null;
+        // Auto-authenticate demo user
+        http.addFilterBefore((request, response, chain) -> {
             if (SecurityContextHolder.getContext().getAuthentication() == null) {
-                demoUser = userRepository.findByUsername("music-man").orElse(null);
+                UserModel demoUser = userRepository.findByUsername("demo")
+                    .or(() -> userRepository.findByUsername("music-man"))
+                    .orElse(null);
+
+                if (demoUser != null) {
+                    String[] roles = demoUser.getRoles() == null || demoUser.getRoles().isEmpty()
+                        ? new String[]{"USER"}
+                        : demoUser.getRoles().stream()
+                            .map(role -> role.startsWith("ROLE_") ? role.substring(5) : role)
+                            .toArray(String[]::new);
+
+                    UserDetails userDetails = User.withUsername(demoUser.getUsername())
+                        .password(demoUser.getPassword())
+                        .roles(roles)
+                        .build();
+
+                    UsernamePasswordAuthenticationToken auth =
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+                }
             }
-        if (demoUser != null) {
-            UserDetails userDetails = User.withUsername(demoUser.getUsername())
-                .password(demoUser.getPassword())
-                .roles(demoUser.getRoles().toArray(String[]::new))
-                .build();
+            chain.doFilter(request, response);
+        }, UsernamePasswordAuthenticationFilter.class);
 
-            UsernamePasswordAuthenticationToken auth =
-                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-
-            SecurityContextHolder.getContext().setAuthentication(auth);
-        }
-        chain.doFilter(request, response);
-    }, UsernamePasswordAuthenticationFilter.class);
-
-    return http.build();
+        return http.build();
     }
 }
